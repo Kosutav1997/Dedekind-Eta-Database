@@ -3,18 +3,55 @@
 <head>
   <meta charset="UTF-8">
   <title>Eta Values Database</title>
+  <!-- MathJax for LaTeX rendering -->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
   <style>
-    body { font-family: Arial; margin: 40px; }
-    table { border-collapse: collapse; width: 60%; margin-top: 20px; }
+    body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
+    h1 { color: #333; }
+    table { border-collapse: collapse; width: 70%; margin-top: 20px; }
     th, td { border: 1px solid #888; padding: 8px 12px; text-align: center; }
     th { background-color: #f2f2f2; }
     tr:nth-child(even) { background-color: #fafafa; }
     .toggle-btn { padding: 5px 10px; background-color: #4CAF50; color: white; border: none; cursor: pointer; border-radius: 4px; }
-    .explanation { display: none; margin-top: 5px; font-style: italic; color: #333; }
+    .explanation { display: none; margin-top: 5px; font-style: italic; color: #333; text-align: left; }
+    footer { margin-top: 40px; border-top: 1px solid #ccc; padding-top: 10px; font-size: 14px; color: #555; }
+    .equation-number { text-align: right; margin-right: 10%; color: #555; font-style: normal; }
   </style>
 </head>
 <body>
+
   <h1>Eta Values Database</h1>
+
+  <!-- Introduction Section -->
+  <h2>Introduction</h2>
+  <p>The Dedekind eta function, \( \eta(\tau) \), is a modular form with the following properties:</p>
+  <ul>
+    <li>Holomorphic on the upper half-plane: \( \text{Im}(\tau) > 0 \)</li>
+    <li>q-expansion: 
+      \[
+      \eta(\tau) = q^{1/24} \prod_{n=1}^{\infty} (1 - q^n), \quad q = e^{2 \pi i \tau}
+      \]
+    </li>
+    <li>Modular transformations:</li>
+  </ul>
+
+  <p>
+    \[
+    \eta(\tau + 1) = e^{\pi i /12} \eta(\tau) \tag{1}
+    \]
+  </p>
+  <p>
+    \[
+    \eta(-1/\tau) = \sqrt{-i\tau} \, \eta(\tau) \tag{2}
+    \]
+  </p>
+
+  <p>Additional properties can be added similarly using numbered equations:</p>
+
+  <!-- Table of Eta Values -->
   <table id="etaTable">
     <thead>
       <tr>
@@ -24,9 +61,15 @@
       </tr>
     </thead>
     <tbody>
-      <!-- Rows will be generated here -->
+      <!-- Rows generated dynamically -->
     </tbody>
   </table>
+
+  <!-- Footer -->
+  <footer>
+    This site is currently under development. For more information, contact: 
+    <a href="mailto:km@gmail.com">km@gmail.com</a>.
+  </footer>
 
   <script>
     fetch('data/eta_i_over_sqrt3.json')
@@ -47,7 +90,7 @@
           etaCell.textContent = entry.eta_i_over_sqrt3;
           row.appendChild(etaCell);
 
-          // explanation cell
+          // explanation cell with toggle button
           const explanationCell = document.createElement('td');
           const button = document.createElement('button');
           button.textContent = "Show Explanation";
@@ -57,7 +100,6 @@
           explanationBox.className = "explanation";
           explanationBox.textContent = entry.explanation || "No explanation available.";
 
-          // single-click toggle
           button.addEventListener('click', () => {
             if (explanationBox.style.display === "none") {
               explanationBox.style.display = "block";
@@ -77,13 +119,6 @@
       })
       .catch(err => console.error("Error loading JSON:", err));
   </script>
+
 </body>
-
-
-  <!-- Place this at the bottom of your body -->
-<footer style="margin-top: 40px; border-top: 1px solid #ccc; padding-top: 10px; font-size: 14px; color: #555;">
-  This site is currently under development. For more information, contact: 
-  <a href="mailto:koustavmondal2407@gmail.com">koustavmondal2407@gmail.com</a>.
-</footer>
-
 </html>

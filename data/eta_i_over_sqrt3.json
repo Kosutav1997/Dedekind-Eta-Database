@@ -1,9 +1,9 @@
 {
   "eta_values": [
-    {
-      "i": 1,
-      "eta_i_over_sqrt3": 0.12345
-    }
-  
+    { "i": 1, "eta_i_over_sqrt3": 0.12345 },
+    { "i": 2, "eta_i_over_sqrt3": 0.23456 },
+    { "i": 3, "eta_i_over_sqrt3": 0.34567 },
+    { "i": 4, "eta_i_over_sqrt3": 0.45678 },
+    { "i": 5, "eta_i_over_sqrt3": 0.56789 }
   ]
 }

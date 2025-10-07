@@ -1,9 +1,29 @@
 {
   "eta_values": [
-    { "i": 1, "eta_i_over_sqrt3": 0.12346 },
-    { "i": 2, "eta_i_over_sqrt3": 0.23456 },
-    { "i": 3, "eta_i_over_sqrt3": 0.34567 },
-    { "i": 4, "eta_i_over_sqrt3": 0.45678 },
-    { "i": 5, "eta_i_over_sqrt3": 0.56789 }
+    {
+      "i": 1,
+      "eta_i_over_sqrt3": 0.12346,
+      "explanation": "η(i/√3) for i=1, small positive value, first entry."
+    },
+    {
+      "i": 2,
+      "eta_i_over_sqrt3": 0.23456,
+      "explanation": "η(i/√3) for i=2, slightly larger than the first value."
+    },
+    {
+      "i": 3,
+      "eta_i_over_sqrt3": 0.34567,
+      "explanation": "Middle value in the dataset, corresponds to i=3."
+    },
+    {
+      "i": 4,
+      "eta_i_over_sqrt3": 0.45678,
+      "explanation": "Upper range value, i=4."
+    },
+    {
+      "i": 5,
+      "eta_i_over_sqrt3": 0.56789,
+      "explanation": "Largest eta value, i=5."
+    }
   ]
 }

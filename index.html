@@ -4,49 +4,17 @@
   <meta charset="UTF-8">
   <title>Eta Values Database</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 40px;
-    }
-    h1 {
-      color: #333;
-    }
-    table {
-      border-collapse: collapse;
-      width: 60%;
-      margin-top: 20px;
-    }
-    th, td {
-      border: 1px solid #888;
-      padding: 8px 12px;
-      text-align: center;
-    }
-    th {
-      background-color: #f2f2f2;
-    }
-    tr:nth-child(even) {
-      background-color: #fafafa;
-    }
-    .toggle-btn {
-      padding: 5px 10px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      cursor: pointer;
-      font-size: 14px;
-      border-radius: 4px;
-    }
-    .explanation {
-      display: none;
-      margin-top: 5px;
-      font-style: italic;
-      color: #333;
-    }
+    body { font-family: Arial; margin: 40px; }
+    table { border-collapse: collapse; width: 60%; margin-top: 20px; }
+    th, td { border: 1px solid #888; padding: 8px 12px; text-align: center; }
+    th { background-color: #f2f2f2; }
+    tr:nth-child(even) { background-color: #fafafa; }
+    .toggle-btn { padding: 5px 10px; background-color: #4CAF50; color: white; border: none; cursor: pointer; border-radius: 4px; }
+    .explanation { display: none; margin-top: 5px; font-style: italic; color: #333; }
   </style>
 </head>
 <body>
   <h1>Eta Values Database</h1>
-
   <table id="etaTable">
     <thead>
       <tr>
@@ -56,7 +24,7 @@
       </tr>
     </thead>
     <tbody>
-      <!-- Rows will be generated dynamically -->
+      <!-- Rows will be generated here -->
     </tbody>
   </table>
 
@@ -69,30 +37,27 @@
         data.eta_values.forEach(entry => {
           const row = document.createElement('tr');
 
-          // i column
+          // i cell
           const iCell = document.createElement('td');
           iCell.textContent = entry.i;
           row.appendChild(iCell);
 
-          // eta column
+          // eta cell
           const etaCell = document.createElement('td');
           etaCell.textContent = entry.eta_i_over_sqrt3;
           row.appendChild(etaCell);
 
-          // explanation column
+          // explanation cell
           const explanationCell = document.createElement('td');
-          
-          // create toggle button
           const button = document.createElement('button');
           button.textContent = "Show Explanation";
           button.className = "toggle-btn";
 
-          // create explanation box
           const explanationBox = document.createElement('div');
           explanationBox.className = "explanation";
           explanationBox.textContent = entry.explanation || "No explanation available.";
 
-          // toggle logic
+          // single-click toggle
           button.addEventListener('click', () => {
             if (explanationBox.style.display === "none") {
               explanationBox.style.display = "block";
@@ -110,9 +75,7 @@
           tbody.appendChild(row);
         });
       })
-      .catch(err => {
-        console.error("Error loading JSON:", err);
-      });
+      .catch(err => console.error("Error loading JSON:", err));
   </script>
 </body>
 </html>

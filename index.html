@@ -40,46 +40,65 @@
 
   .drip {
     color: red;
-    font-size: 2.2em;
+    font-size: 2.4em;
     font-weight: bold;
     position: relative;
-    text-shadow: 0 0 10px darkred, 2px 2px 5px #700;
+    text-shadow: 0 0 10px darkred, 2px 2px 6px #600;
   }
 
-  /* Create dripping blood effect */
+  /* Blood droplet style */
   .drip::after {
     content: "";
     position: absolute;
-    left: 40%;
-    top: 90%;
+    left: 50%;
+    top: 100%;
     width: 6px;
-    height: 6px;
-    background: red;
-    border-radius: 50%;
-    box-shadow:
-      2px 4px 6px rgba(0,0,0,0.6),
-      inset 0 0 4px #700;
-    animation: drip 3s infinite ease-in-out;
+    height: 14px;
+    background: linear-gradient(to bottom, #a00 0%, #900 50%, #400 100%);
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    opacity: 0;
+    animation: bloodDrip 4s infinite ease-in-out;
+    transform: translateX(-50%);
   }
 
-  @keyframes drip {
+  @keyframes bloodDrip {
     0% {
-      transform: translateY(0);
+      top: 100%;
       opacity: 1;
-      height: 6px;
+      height: 8px;
+    }
+    25% {
+      top: 110%;
+      height: 10px;
+      opacity: 1;
     }
     50% {
-      transform: translateY(10px);
+      top: 130%;
+      height: 14px;
       opacity: 0.9;
-      height: 10px;
+    }
+    75% {
+      top: 160%;
+      opacity: 0.6;
     }
     100% {
-      transform: translateY(20px);
+      top: 200%;
       opacity: 0;
-      height: 2px;
     }
   }
+
+  /* Make each letter drip slightly out of sync */
+  .drip:nth-of-type(1)::after {
+    animation-delay: 0s;
+  }
+  .drip:nth-of-type(2)::after {
+    animation-delay: 1.2s;
+  }
+  .drip:nth-of-type(3)::after {
+    animation-delay: 2.4s;
+  }
 </style>
+
 
 
 <!-- Introduction Section -->

@@ -13,8 +13,10 @@
     }
     table {
       border-collapse: collapse;
-      width: 60%;
+      width: 50%;
       margin-top: 20px;
+      display: inline-block;
+      vertical-align: top;
     }
     th, td {
       border: 1px solid #888;
@@ -27,12 +29,26 @@
     tr:nth-child(even) {
       background-color: #fafafa;
     }
+    .dropdown-container {
+      display: inline-block;
+      margin-left: 40px;
+      vertical-align: top;
+    }
+    select {
+      padding: 5px 10px;
+      font-size: 16px;
+    }
+    p {
+      margin-top: 20px;
+      font-size: 16px;
+      max-width: 300px;
+    }
   </style>
 </head>
 <body>
   <h1>Eta Values Database</h1>
-  <p>The table below shows all η(i/√3) values:</p>
 
+  <!-- Table -->
   <table id="etaTable">
     <thead>
       <tr>
@@ -45,21 +61,28 @@
     </tbody>
   </table>
 
+  <!-- Dropdown -->
+  <div class="dropdown-container">
+    <p>Select an η value to see explanation:</p>
+    <select id="etaDropdown">
+      <option value="">-- Select η --</option>
+    </select>
+    <p id="etaExplanation"></p>
+  </div>
+
   <script>
-    // Load JSON and populate table
     fetch('data/eta_i_over_sqrt3.json')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error("Could not load JSON file. Make sure the path is correct.");
-        }
-        return response.json();
-      })
+      .then(response => response.json())
       .then(data => {
         const tbody = document.querySelector("#etaTable tbody");
+        const dropdown = document.getElementById('etaDropdown');
+        const explanation = document.getElementById('etaExplanation');
+
+        // Populate table
         data.eta_values.forEach(entry => {
-          const row = document.createElement("tr");
-          const iCell = document.createElement("td");
-          const etaCell = document.createElement("td");
+          const row = document.createElement('tr');
+          const iCell = document.createElement('td');
+          const etaCell = document.createElement('td');
 
           iCell.textContent = entry.i;
           etaCell.textContent = entry.eta_i_over_sqrt3;
@@ -67,49 +90,22 @@
           row.appendChild(iCell);
           row.appendChild(etaCell);
           tbody.appendChild(row);
+
+          // Populate dropdown
+          const option = document.createElement('option');
+          option.value = entry.explanation || "No explanation available.";
+          option.textContent = entry.eta_i_over_sqrt3;
+          dropdown.appendChild(option);
+        });
+
+        // Show explanation on dropdown selection
+        dropdown.addEventListener('change', () => {
+          explanation.textContent = dropdown.value;
         });
       })
       .catch(err => {
-        document.body.insertAdjacentHTML('beforeend', `<p style="color:red;">Error loading JSON: ${err}</p>`);
+        explanation.textContent = "Error loading JSON: " + err;
       });
   </script>
-</body>
-</html>
-
-
-<!DOCTYPE html>
-<html>
-<head>
-    <title><a href="google.com">HTML Table Example</a></title>
-</head>
-<body>
-
-    <table border="1">
-        <thead>
-            <tr>
-                <th><a href="https://google.com">Name</a></th>
-                <th>Age</th>
-                <th>City</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Alice</td>
-                <td>30</td>
-                <td>New York</td>
-            </tr>
-            <tr>
-                <td>Bob</td>
-                <td>24</td>
-                <td>London</td>
-            </tr>
-            <tr>
-                <td>Charlie</td>
-                <td>35</td>
-                <td>Paris</td>
-            </tr>
-        </tbody>
-    </table>
-
 </body>
 </html>

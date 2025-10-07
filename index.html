@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Eta Values Database</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+    }
+    h1 {
+      color: #333;
+    }
+    table {
+      border-collapse: collapse;
+      width: 60%;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #888;
+      padding: 8px 12px;
+      text-align: center;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    tr:nth-child(even) {
+      background-color: #fafafa;
+    }
+  </style>
+</head>
+<body>
+  <h1>Eta Values Database</h1>
+  <p>The table below shows all η(i/√3) values:</p>
+
+  <table id="etaTable">
+    <thead>
+      <tr>
+        <th>i</th>
+        <th>η(i/√3)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Data will be loaded here -->
+    </tbody>
+  </table>
+
+  <script>
+    // Load JSON and populate table
+    fetch('data/eta_i_over_sqrt3.json')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Could not load JSON file. Make sure the path is correct.");
+        }
+        return response.json();
+      })
+      .then(data => {
+        const tbody = document.querySelector("#etaTable tbody");
+        data.eta_values.forEach(entry => {
+          const row = document.createElement("tr");
+          const iCell = document.createElement("td");
+          const etaCell = document.createElement("td");
+
+          iCell.textContent = entry.i;
+          etaCell.textContent = entry.eta_i_over_sqrt3;
+
+          row.appendChild(iCell);
+          row.appendChild(etaCell);
+          tbody.appendChild(row);
+        });
+      })
+      .catch(err => {
+        document.body.insertAdjacentHTML('beforeend', `<p style="color:red;">Error loading JSON: ${err}</p>`);
+      });
+  </script>
+</body>
+</html>

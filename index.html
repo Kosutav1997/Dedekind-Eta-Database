@@ -23,11 +23,64 @@
 </head>
 <body>
 
-<h1>
-  <span class="initial">D</span>edekind 
-  <span class="initial">E</span>ta 
-  <span class="initial">D</span>atabase
+<h1 class="bloody-title">
+  <span class="drip">D</span>edekind 
+  <span class="drip">E</span>ta 
+  <span class="drip">D</span>atabase
 </h1>
+
+<style>
+  .bloody-title {
+    color: #fff;
+    font-family: 'Georgia', serif;
+    font-size: 2.5em;
+    text-shadow: 0 0 10px red, 0 0 20px darkred;
+    position: relative;
+  }
+
+  .drip {
+    color: red;
+    font-size: 2.2em;
+    font-weight: bold;
+    position: relative;
+    text-shadow: 0 0 10px darkred, 2px 2px 5px #700;
+  }
+
+  /* Create dripping blood effect */
+  .drip::after {
+    content: "";
+    position: absolute;
+    left: 40%;
+    top: 90%;
+    width: 6px;
+    height: 6px;
+    background: red;
+    border-radius: 50%;
+    box-shadow:
+      2px 4px 6px rgba(0,0,0,0.6),
+      inset 0 0 4px #700;
+    animation: drip 3s infinite ease-in-out;
+  }
+
+  @keyframes drip {
+    0% {
+      transform: translateY(0);
+      opacity: 1;
+      height: 6px;
+    }
+    50% {
+      transform: translateY(10px);
+      opacity: 0.9;
+      height: 10px;
+    }
+    100% {
+      transform: translateY(20px);
+      opacity: 0;
+      height: 2px;
+    }
+  }
+</style>
+
 
 <!-- Introduction Section -->
 <h2>Introduction</h2>

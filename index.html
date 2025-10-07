@@ -27,9 +27,20 @@
     tr:nth-child(even) {
       background-color: #fafafa;
     }
-    select {
-      padding: 4px;
+    .toggle-btn {
+      padding: 5px 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
       font-size: 14px;
+      border-radius: 4px;
+    }
+    .explanation {
+      display: none;
+      margin-top: 5px;
+      font-style: italic;
+      color: #333;
     }
   </style>
 </head>
@@ -68,33 +79,34 @@
           etaCell.textContent = entry.eta_i_over_sqrt3;
           row.appendChild(etaCell);
 
-          // dropdown explanation column
+          // explanation column
           const explanationCell = document.createElement('td');
-          const select = document.createElement('select');
+          
+          // create toggle button
+          const button = document.createElement('button');
+          button.textContent = "Show Explanation";
+          button.className = "toggle-btn";
 
-          // default option
-          const defaultOption = document.createElement('option');
-          defaultOption.textContent = "-- Show explanation --";
-          defaultOption.value = "";
-          select.appendChild(defaultOption);
+          // create explanation box
+          const explanationBox = document.createElement('div');
+          explanationBox.className = "explanation";
+          explanationBox.textContent = entry.explanation || "No explanation available.";
 
-          // actual explanation option
-          const option = document.createElement('option');
-          option.textContent = "View explanation";
-          option.value = entry.explanation || "No explanation available.";
-          select.appendChild(option);
-
-          // show explanation below dropdown when selected
-          const explanationParagraph = document.createElement('p');
-          explanationParagraph.style.margin = "5px 0 0 0";
-          explanationCell.appendChild(select);
-          explanationCell.appendChild(explanationParagraph);
-
-          select.addEventListener('change', () => {
-            explanationParagraph.textContent = select.value;
+          // toggle logic
+          button.addEventListener('click', () => {
+            if (explanationBox.style.display === "none") {
+              explanationBox.style.display = "block";
+              button.textContent = "Hide Explanation";
+            } else {
+              explanationBox.style.display = "none";
+              button.textContent = "Show Explanation";
+            }
           });
 
+          explanationCell.appendChild(button);
+          explanationCell.appendChild(explanationBox);
           row.appendChild(explanationCell);
+
           tbody.appendChild(row);
         });
       })

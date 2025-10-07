@@ -13,10 +13,8 @@
     }
     table {
       border-collapse: collapse;
-      width: 50%;
+      width: 60%;
       margin-top: 20px;
-      display: inline-block;
-      vertical-align: top;
     }
     th, td {
       border: 1px solid #888;
@@ -29,82 +27,79 @@
     tr:nth-child(even) {
       background-color: #fafafa;
     }
-    .dropdown-container {
-      display: inline-block;
-      margin-left: 40px;
-      vertical-align: top;
-    }
     select {
-      padding: 5px 10px;
-      font-size: 16px;
-    }
-    p {
-      margin-top: 20px;
-      font-size: 16px;
-      max-width: 300px;
+      padding: 4px;
+      font-size: 14px;
     }
   </style>
 </head>
 <body>
   <h1>Eta Values Database</h1>
 
-  <!-- Table -->
   <table id="etaTable">
     <thead>
       <tr>
         <th>i</th>
         <th>η(i/√3)</th>
+        <th>Explanation</th>
       </tr>
     </thead>
     <tbody>
-      <!-- Data will be loaded here -->
+      <!-- Rows will be generated dynamically -->
     </tbody>
   </table>
-
-  <!-- Dropdown -->
-  <div class="dropdown-container">
-    <p>Select an η value to see explanation:</p>
-    <select id="etaDropdown">
-      <option value="">-- Select η --</option>
-    </select>
-    <p id="etaExplanation"></p>
-  </div>
 
   <script>
     fetch('data/eta_i_over_sqrt3.json')
       .then(response => response.json())
       .then(data => {
         const tbody = document.querySelector("#etaTable tbody");
-        const dropdown = document.getElementById('etaDropdown');
-        const explanation = document.getElementById('etaExplanation');
 
-        // Populate table
         data.eta_values.forEach(entry => {
           const row = document.createElement('tr');
+
+          // i column
           const iCell = document.createElement('td');
-          const etaCell = document.createElement('td');
-
           iCell.textContent = entry.i;
-          etaCell.textContent = entry.eta_i_over_sqrt3;
-
           row.appendChild(iCell);
+
+          // eta column
+          const etaCell = document.createElement('td');
+          etaCell.textContent = entry.eta_i_over_sqrt3;
           row.appendChild(etaCell);
-          tbody.appendChild(row);
 
-          // Populate dropdown
+          // dropdown explanation column
+          const explanationCell = document.createElement('td');
+          const select = document.createElement('select');
+
+          // default option
+          const defaultOption = document.createElement('option');
+          defaultOption.textContent = "-- Show explanation --";
+          defaultOption.value = "";
+          select.appendChild(defaultOption);
+
+          // actual explanation option
           const option = document.createElement('option');
+          option.textContent = "View explanation";
           option.value = entry.explanation || "No explanation available.";
-          option.textContent = entry.eta_i_over_sqrt3;
-          dropdown.appendChild(option);
-        });
+          select.appendChild(option);
 
-        // Show explanation on dropdown selection
-        dropdown.addEventListener('change', () => {
-          explanation.textContent = dropdown.value;
+          // show explanation below dropdown when selected
+          const explanationParagraph = document.createElement('p');
+          explanationParagraph.style.margin = "5px 0 0 0";
+          explanationCell.appendChild(select);
+          explanationCell.appendChild(explanationParagraph);
+
+          select.addEventListener('change', () => {
+            explanationParagraph.textContent = select.value;
+          });
+
+          row.appendChild(explanationCell);
+          tbody.appendChild(row);
         });
       })
       .catch(err => {
-        explanation.textContent = "Error loading JSON: " + err;
+        console.error("Error loading JSON:", err);
       });
   </script>
 </body>

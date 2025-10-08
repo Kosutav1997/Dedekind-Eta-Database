@@ -210,9 +210,16 @@ to be a Hauptmodul for \( \Gamma_0(2) \), then it is related to the
         fetch(`data/${fileName}`)
           .then(response => response.json())
           .then(data => {
-            const tableTitle = document.createElement('h2');
-            tableTitle.innerHTML = data.title ? data.title : fileName.replace('.json','').replace(/_/g,' ').toUpperCase();
-            tablesContainer.appendChild(tableTitle);
+           const tableTitle = document.createElement('h2');
+
+// Add LaTeX delimiters to ensure MathJax recognizes it
+tableTitle.innerHTML = data.title ? `\\(${data.title}\\)` : fileName.replace('.json','').replace(/_/g,' ').toUpperCase();
+
+tablesContainer.appendChild(tableTitle);
+
+// Tell MathJax to render LaTeX inside the title
+MathJax.typesetPromise([tableTitle]);
+
 
             const table = document.createElement('table');
             const thead = document.createElement('thead');

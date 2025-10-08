@@ -19,7 +19,7 @@
     {
       "k": "\\frac{-6}{\\sqrt{3}\\textit{i}}=2\\sqrt{3}\\textit{i}",
       "eta_i_over_sqrt3": "\\frac{(3\\sqrt{3}-5)^{\\frac{1}{12}}}{2^{\\frac{11}{24}}}\\eta(\\sqrt{3}\\textit{i})",
-      "explanation": "Modular polynomial $\\Phi_2(X,Y)$ gives $j(2\\sqrt{3}\\textit{i})=141790500+818626500\\sqrt{3}$. Then equation (3) gives $u(2\\sqrt{3}\\textit{i})=\\frac{-15\\sqrt{3}}{8}-\\frac{1667}{512}+\\frac{5445\\sqrt{6}}{4096}+\\frac{9405\\sqrt{2}}{4096}$  . Finally use$\\eta(\\sqrt{3}\\textit{i})$ value."
+      "explanation": "Modular polynomial $\\Phi_2(X,Y)$ gives $j(2\\sqrt{3}\\textit{i})=141790500+818626500\\sqrt{3}$. Then equation (3) gives $u(2\\sqrt{3}\\textit{i})=\\frac{-15\\sqrt{3}}{8}-\\frac{1667}{512}+\\frac{5445\\sqrt{6}}{4096}+\\frac{9405\\sqrt{2}}{4096}$  . Finally use $\\eta(\\sqrt{3}\\textit{i})$ value."
     }
   ]
 }

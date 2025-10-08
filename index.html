@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Eta Values Database</title>
+  <title>Dedekind Eta Database</title>
 
   <!-- MathJax Configuration -->
   <script>
@@ -29,7 +29,50 @@
       background-color: #fffafa;
     }
 
-    h1 { font-size: 2.5em; text-align: center; margin-bottom: 20px; }
+    h1.bloody-title {
+      color: #fff;
+      font-family: 'Georgia', serif;
+      font-size: 2.5em;
+      text-shadow: 0 0 10px red, 0 0 20px darkred;
+      text-align: center;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .drip {
+      color: red;
+      font-size: 2.4em;
+      font-weight: bold;
+      position: relative;
+      text-shadow: 0 0 10px darkred, 2px 2px 6px #600;
+    }
+
+    .drip::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 100%;
+      width: 6px;
+      height: 14px;
+      background: linear-gradient(to bottom, #a00 0%, #900 50%, #400 100%);
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      opacity: 0;
+      animation: bloodDrip 4s infinite ease-in-out;
+      transform: translateX(-50%);
+    }
+
+    @keyframes bloodDrip {
+      0% { top: 100%; opacity: 1; height: 8px; }
+      25% { top: 110%; height: 10px; opacity: 1; }
+      50% { top: 130%; height: 14px; opacity: 0.9; }
+      75% { top: 160%; opacity: 0.6; }
+      100% { top: 200%; opacity: 0; }
+    }
+
+    .drip:nth-of-type(1)::after { animation-delay: 0s; }
+    .drip:nth-of-type(2)::after { animation-delay: 1.2s; }
+    .drip:nth-of-type(3)::after { animation-delay: 2.4s; }
+
     h2 { text-align: center; margin-top: 50px; }
 
     table { 
@@ -81,8 +124,14 @@
 
 <body>
 
-<h1>Dedekind Eta Database</h1>
+<!-- Bloody Title -->
+<h1 class="bloody-title">
+  <span class="drip">D</span>edekind 
+  <span class="drip">E</span>ta 
+  <span class="drip">D</span>atabase
+</h1>
 
+<!-- Introduction -->
 <h2>Introduction</h2>
 <p>The Dedekind eta function, \( \eta(\tau) \), is a modular form with the following properties:</p>
 <ul>
@@ -124,7 +173,7 @@
         fetch(`data/${fileName}`)
           .then(response => response.json())
           .then(data => {
-            // Table heading: use title from JSON if available, else filename
+            // Table heading: use title from JSON if available
             const tableTitle = document.createElement('h2');
             tableTitle.innerHTML = data.title ? data.title : fileName.replace('.json','').replace(/_/g,' ').toUpperCase();
             tablesContainer.appendChild(tableTitle);

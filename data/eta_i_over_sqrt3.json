@@ -12,13 +12,18 @@
    },
      {
   "k": "3\\textit{i}",
-  "eta_i_over_sqrt3": "\\frac{\\Gamma(1/4)}{2\\cdot 3^{\\\frac{3}{8}}(2+\\sqrt{3})^{\\frac{1}{12}}\\pi^{\\frac{3}{4}}}",
+  "eta_i_over_sqrt3": "\\frac{\\Gamma(1/4)}{2\\cdot 3^{\\frac{3}{8}}(2+\\sqrt{3})^{\\frac{1}{12}}\\pi^{\\frac{3}{4}}}",
   "explanation": "From Ramanujan's lost notebook."
    },
      {
   "k": "4\\textit{i}",
   "eta_i_over_sqrt3": "\\frac{\\Gamma(1/4)}{2^{\\frac{29}{16}}(1+\\sqrt{2})^{\\frac{1}{4}}\\pi^{\\frac{3}{4}}}",
   "explanation": "From Ramanujan's lost notebook."
-   }
+   }, 
+     {
+  "k": "5\\textit{i}",
+  "eta_i_over_sqrt3": "\\frac{\\Gamma(1/4)}{2\\sqrt{5}\\phi^{\\frac{1}{2}}\\pi^{\\frac{3}{4}}}",
+  "explanation": "From Ramanujan's lost notebook. \\phi=\\frac{1+\\sqrt{5}}{2} is the golden ratio."
+   },
   ]
 }

@@ -24,7 +24,12 @@
     {
       "k": "\\frac{-12}{\\sqrt{3}\\textit{i}}=4\\sqrt{3}\\textit{i}",
       "eta_i_over_sqrt3": "\\frac{(495\\sqrt{6}-495\\sqrt{2}+360\\sqrt{3}-1136)^{\\frac{1}{24}}}{2^{\\frac{11}{12}}}\\eta(\\sqrt{3}\\textit{i})",
-      "explanation": "Modular polynomial $\\Phi_2(X,Y)$ gives $j(2\\sqrt{3}\\textit{i})=141790500+818626500\\sqrt{3}$. Then equation (3) gives $u(2\\sqrt{3}\\textit{i})=\\frac{-15\\sqrt{3}}{8}-\\frac{1667}{512}+\\frac{5445\\sqrt{6}}{4096}+\\frac{9405\\sqrt{2}}{4096}$  . Finally use  $\\eta(4\\sqrt{3}\\textit{i})=\\sqrt{2}(5445\\sqrt{6}+9405\\sqrt{2}-7680\\sqrt{3}-13336)^{\\frac{1}{24}}\\eta(2\\sqrt{3}\\textit{i})$ and $\\eta(2\\sqrt{3}\\textit{i})$ value in equation (3)."
+      "explanation": "Modular polynomial $\\Phi_2(X,Y)$ with $j(\\sqrt{3}\\textit{i})=54000$ gives $j(2\\sqrt{3}\\textit{i})=141790500+818626500\\sqrt{3}$. Then equation (3) gives $u(2\\sqrt{3}\\textit{i})=\\frac{-15\\sqrt{3}}{8}-\\frac{1667}{512}+\\frac{5445\\sqrt{6}}{4096}+\\frac{9405\\sqrt{2}}{4096}$  . Finally use  $\\eta(4\\sqrt{3}\\textit{i})=\\sqrt{2}(5445\\sqrt{6}+9405\\sqrt{2}-7680\\sqrt{3}-13336)^{\\frac{1}{24}}\\eta(2\\sqrt{3}\\textit{i})$ and $\\eta(2\\sqrt{3}\\textit{i})$ value in equation (3)."
+    }, 
+    {
+      "k": "\\frac{-2}{\\sqrt{3}\\textit{i}}",
+      "eta_i_over_sqrt3": "\\frac{\\sqrt[4]{3}}{\\sqrt{2}}(104+60\\sqrt{3})^{\\frac{1}{24}}\\eta(\\sqrt{3}\\textit{i})",
+      "explanation": "Modular polynomial $\\Phi_2(X,Y)$  with $j(\\sqrt{3}\\textit{i})=54000$ gives $j(\\frac{\\sqrt{3}\\textit{i}}{2})=141790500-818626500\\sqrt{3}$. Then equation (3) gives $u(2\\sqrt{3}\\textit{i})=\\frac{13}{2}-\\frac{15\\sqrt{3}}{4}$. Finally, use $\\eta(\\frac{\\sqrt{3}\textit{i}}{2})=(\\frac{13}{2}-\\frac{15\\sqrt{3}}{4})^{-\\frac{1}{24}}\\eta(\\sqrt{3}\\textit{i})$ and equation (2)"
     }
   ]
 }

@@ -1,244 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Dedekind Eta Database</title>
 
-  <!-- MathJax Configuration -->
-  <script>
-    window.MathJax = {
-      tex: {
-        inlineMath: [['$', '$'], ['\\(', '\\)']],
-        displayMath: [['$$', '$$'], ['\\[', '\\]']]
-      },
-      svg: { fontCache: 'global' }
-    };
-  </script>
-
-  <!-- MathJax Library -->
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script id="MathJax-script" async
-    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-  </script>
-
-  <style>
-    body { 
-      font-family: Arial, sans-serif; 
-      margin: 40px; 
-      line-height: 1.6; 
-      background-color: #fffafa;
+  "title": "Eta Values at Multiples of i",
+  "eta_values": [
+    {
+      "k": "\\textit{i}",
+      "eta_i_over_sqrt3": "\\frac{\\Gamma(1/4)}{2\\pi^{\\frac{3}{4}}}",
+      "explanation": "From Ramanujan's lost notebook."
+    },
+    {
+      "k": "2\\textit{i}",
+      "eta_i_over_sqrt3": "\\frac{\\Gamma(1/4)}{2^{\\frac{11}{8}}\\pi^{\\frac{3}{4}}}",
+      "explanation": "From Ramanujan's lost notebook."
+    },
+    {
+      "k": "3\\textit{i}",
+      "eta_i_over_sqrt3": "\\frac{\\Gamma(1/4)}{2\\cdot 3^{\\frac{3}{8}}(2+\\sqrt{3})^{\\frac{1}{12}}\\pi^{\\frac{3}{4}}}",
+      "explanation": "From Ramanujan's lost notebook."
+    },
+    {
+      "k": "4\\textit{i}",
+      "eta_i_over_sqrt3": "\\frac{\\Gamma(1/4)}{2^{\\frac{29}{16}}(1+\\sqrt{2})^{\\frac{1}{4}}\\pi^{\\frac{3}{4}}}",
+      "explanation": "From Ramanujan's lost notebook."
+    },
+    {
+      "k": "5\\textit{i}",
+      "eta_i_over_sqrt3": "\\frac{\\Gamma(1/4)}{2\\sqrt{5}\\phi^{\\frac{1}{2}}\\pi^{\\frac{3}{4}}}",
+      "explanation": "From Ramanujan's lost notebook. $\\phi = \\frac{1+\\sqrt{5}}{2}$ is the golden ratio."
+    }, 
+    {
+      "k": "6\\textit{i}",
+      "eta_i_over_sqrt3": "\\frac{(2-\\sqrt{3})^{\\frac{1}{24}}(\\sqrt{2}-\\sqrt[4]{3})^{\\frac{1}{4}}\\Gamma(1/4)}{2\\cdot 6^{\\frac{3}{8}}\\pi^{\\frac{3}{4}}}",
+      "explanation": "From Ramanujan's lost notebook."
     }
-
-    h1.bloody-title {
-      color: #fff;
-      font-family: 'Georgia', serif;
-      font-size: 2.5em;
-      text-shadow: 0 0 10px red, 0 0 20px darkred;
-      text-align: center;
-      margin-bottom: 20px;
-      position: relative;
-    }
-
-    .drip {
-      color: red;
-      font-size: 2.4em;
-      font-weight: bold;
-      position: relative;
-      text-shadow: 0 0 10px darkred, 2px 2px 6px #600;
-    }
-
-    .drip::after {
-      content: "";
-      position: absolute;
-      left: 50%;
-      top: 100%;
-      width: 6px;
-      height: 14px;
-      background: linear-gradient(to bottom, #a00 0%, #900 50%, #400 100%);
-      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-      opacity: 0;
-      animation: bloodDrip 4s infinite ease-in-out;
-      transform: translateX(-50%);
-    }
-
-    @keyframes bloodDrip {
-      0% { top: 100%; opacity: 1; height: 8px; }
-      25% { top: 110%; height: 10px; opacity: 1; }
-      50% { top: 130%; height: 14px; opacity: 0.9; }
-      75% { top: 160%; opacity: 0.6; }
-      100% { top: 200%; opacity: 0; }
-    }
-
-    .drip:nth-of-type(1)::after { animation-delay: 0s; }
-    .drip:nth-of-type(2)::after { animation-delay: 1.2s; }
-    .drip:nth-of-type(3)::after { animation-delay: 2.4s; }
-
-    h2 { text-align: center; margin-top: 50px; }
-
-    table { 
-      border-collapse: collapse; 
-      width: 80%; 
-      margin: 30px auto; 
-    }
-
-    th, td { 
-      border: 1px solid #888; 
-      padding: 8px 12px; 
-      text-align: center; 
-    }
-
-    th { background-color: #f2f2f2; }
-    tr:nth-child(even) { background-color: #fafafa; }
-
-    .toggle-btn { 
-      padding: 5px 10px; 
-      background-color: #4CAF50; 
-      color: white; 
-      border: none; 
-      cursor: pointer; 
-      border-radius: 4px; 
-    }
-
-    .toggle-btn:hover {
-      background-color: #45a049;
-    }
-
-    .explanation { 
-      display: none; 
-      margin-top: 5px; 
-      font-style: italic; 
-      color: #333; 
-      text-align: left; 
-    }
-
-    footer { 
-      margin-top: 40px; 
-      border-top: 1px solid #ccc; 
-      padding-top: 10px; 
-      font-size: 14px; 
-      color: #555; 
-      text-align: center;
-    }
-  </style>
-</head>
-
-<body>
-
-<!-- Bloody Title -->
-<h1 class="bloody-title">
-  <span class="drip">D</span>edekind 
-  <span class="drip">E</span>ta 
-  <span class="drip">D</span>atabase
-</h1>
-
-<!-- Introduction -->
-<h2>Introduction</h2>
-<p>The Dedekind eta function, \( \eta(\tau) \), is a modular form with the following properties:</p>
-<ul>
-  <li>Holomorphic on the upper half-plane: \( \text{Im}(\tau) > 0 \)</li>
-  <li>q-expansion: 
-    \[
-    \eta(\tau) = q^{1/24} \prod_{n=1}^{\infty} (1 - q^n), \quad q = e^{2 \pi i \tau}
-    \]
-  </li>
-  <li>Modular transformations:</li>
-</ul>
-
-<p>
-  \[
-  \eta(\tau + 1) = e^{\pi i /12} \eta(\tau) \tag{1}
-  \]
-</p>
-<p>
-  \[
-  \eta(-1/\tau) = \sqrt{-i\tau} \, \eta(\tau) \tag{2}
-  \]
-</p>
-
-<div id="tables-container"></div>
-
-<footer>
-  This site is currently under development. For more information, contact: 
-  <a href="mailto:koustavmondal2407@gmail.com">koustavmondal2407@gmail.com</a>.
-</footer>
-
-<script>
-  // Load index.json
-  fetch('data/index.json')
-    .then(response => response.json())
-    .then(indexData => {
-      const tablesContainer = document.getElementById('tables-container');
-
-      indexData.files.forEach(fileName => {
-        fetch(`data/${fileName}`)
-          .then(response => response.json())
-          .then(data => {
-            // Table heading: use title from JSON if available
-            const tableTitle = document.createElement('h2');
-            tableTitle.innerHTML = data.title ? data.title : fileName.replace('.json','').replace(/_/g,' ').toUpperCase();
-            tablesContainer.appendChild(tableTitle);
-
-            // Create table
-            const table = document.createElement('table');
-
-            // Table header
-            const thead = document.createElement('thead');
-            const headerRow = document.createElement('tr');
-            ['\\(\\tau\\)', '\\(\\eta(\\tau)\\)', 'Explanation'].forEach(header => {
-              const th = document.createElement('th');
-              th.innerHTML = header;
-              headerRow.appendChild(th);
-            });
-            thead.appendChild(headerRow);
-            table.appendChild(thead);
-
-            // Table body
-            const tbody = document.createElement('tbody');
-
-            data.eta_values.forEach(entry => {
-              const row = document.createElement('tr');
-
-              const tauCell = document.createElement('td');
-              tauCell.innerHTML = `\\(${entry.k}\\)`;
-              row.appendChild(tauCell);
-
-              const etaCell = document.createElement('td');
-              etaCell.innerHTML = `\\(${entry.eta_i_over_sqrt3}\\)`;
-              row.appendChild(etaCell);
-
-              const explanationCell = document.createElement('td');
-              const button = document.createElement('button');
-              button.textContent = "Show Explanation";
-              button.className = "toggle-btn";
-
-              const explanationBox = document.createElement('div');
-              explanationBox.className = "explanation";
-              explanationBox.innerHTML = entry.explanation || "No explanation available.";
-
-              button.addEventListener('click', () => {
-                const isHidden = explanationBox.style.display === "none" || explanationBox.style.display === "";
-                explanationBox.style.display = isHidden ? "block" : "none";
-                button.textContent = isHidden ? "Hide Explanation" : "Show Explanation";
-                if (isHidden) MathJax.typesetPromise([explanationBox]);
-              });
-
-              explanationCell.appendChild(button);
-              explanationCell.appendChild(explanationBox);
-              row.appendChild(explanationCell);
-
-              tbody.appendChild(row);
-            });
-
-            table.appendChild(tbody);
-            tablesContainer.appendChild(table);
-
-            MathJax.typesetPromise();
-          })
-          .catch(err => console.error(`Error loading ${fileName}:`, err));
-      });
-    })
-    .catch(err => console.error("Error loading index.json:", err));
-</script>
-
-</body>
-</html>
+  ]
+}

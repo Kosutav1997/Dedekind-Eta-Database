@@ -1,9 +1,9 @@
 {
   "eta_values": [
     {
-      "i": 1,
-      "eta_i_over_sqrt3": "\\frac{\\Gamma(1/3)}{\\Gamma(2/3)}",
-      "explanation": "η(1) expressed as a gamma quotient: \\( \\frac{\\Gamma(1/3)}{\\Gamma(2/3)} \\)."
+      "i": i,
+      "eta_i_over_sqrt3": "\\frac{\\Gamma(1/4)}{2\\pi^{\\frac{3}{4}}}",
+      "explanation": "Ramanuujan's lost notebook."
     },
     {
       "i": 2,

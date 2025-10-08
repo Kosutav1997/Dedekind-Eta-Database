@@ -1,1 +1,10 @@
-
+{
+  "title": "\\text{Eta Values at imaginary quadratic points in } \\mathbb{Q}(\\sqrt{2}i)",
+  "eta_values": [
+    {
+      "k": "\\sqrt{2}\\textit{i}",
+      "eta_i_over_sqrt3": "\\frac{1}{2^{\\frac{11}{8}}\\pi^{\\frac{3}{4}}}\\sqrt{\\Gamma(1/8)\\Gamma(3/8)}",
+      "explanation": "Known value"
+    }
+  ]
+}

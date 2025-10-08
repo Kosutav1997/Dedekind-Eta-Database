@@ -1,1 +1,10 @@
-
+{
+  "title": "\\text{Eta Values at imaginary quadratic points in } \\mathbb{Q}(\\sqrt{7}i)",
+  "eta_values": [
+    {
+      "k": "\\frac{-1+\\sqrt{7}\\textit{i}}{2}",
+      "eta_i_over_sqrt3": "\\frac{1}{e^{\\frac{i \\pi}{24}}2\\sqrt[4]{7}\\pi}\\sqrt{\\Gamma(1/7)\\Gamma(2/7)\\Gamma(4/7)}",
+      "explanation": "Known value"
+    }
+  ]
+}

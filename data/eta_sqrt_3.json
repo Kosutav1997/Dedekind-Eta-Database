@@ -29,7 +29,7 @@
     {
       "k": "\\frac{-2}{\\sqrt{3}\\textit{i}}",
       "eta_i_over_sqrt3": "\\frac{\\sqrt[4]{3}}{\\sqrt{2}}(104+60\\sqrt{3})^{\\frac{1}{24}}\\eta(\\sqrt{3}\\textit{i})",
-      "explanation": "Modular polynomial $\\Phi_2(X,Y)$  with $j(\\sqrt{3}\\textit{i})=54000$ gives $j(\\frac{\\sqrt{3}\\textit{i}}{2})=141790500-818626500\\sqrt{3}$. Then equation (3) gives $u(2\\sqrt{3}\\textit{i})=\\frac{13}{2}-\\frac{15\\sqrt{3}}{4}$. Finally, use $\\eta(\\frac{\\sqrt{3}\textit{i}}{2})=(\\frac{13}{2}-\\frac{15\\sqrt{3}}{4})^{-\\frac{1}{24}}\\eta(\\sqrt{3}\\textit{i})$ and equation (2)"
+      "explanation": "Modular polynomial $\\Phi_2(X,Y)$  with $j(\\sqrt{3}\\textit{i})=54000$ gives $j(\\frac{\\sqrt{3}\\textit{i}}{2})=141790500-818626500\\sqrt{3}$. Then equation (3) gives $u(2\\sqrt{3}\\textit{i})=\\frac{13}{2}-\\frac{15\\sqrt{3}}{4}$. Finally, use $\\eta(\\frac{\\sqrt{3}\\textit{i}}{2})=(\\frac{13}{2}-\\frac{15\\sqrt{3}}{4})^{-\\frac{1}{24}}\\eta(\\sqrt{3}\\textit{i})$ and equation (2)"
     }
   ]
 }

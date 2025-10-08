@@ -3,75 +3,130 @@
 <head>
   <meta charset="UTF-8">
   <title>Eta Values Database</title>
-  
-  <!-- MathJax for LaTeX rendering -->
+
+  <!-- MathJax Configuration -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+
+  <!-- MathJax Library -->
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script id="MathJax-script" async
     src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
   </script>
 
+  <!-- Page Styles -->
   <style>
-    body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
-    table { border-collapse: collapse; width: 70%; margin-top: 20px; }
-    th, td { border: 1px solid #888; padding: 8px 12px; text-align: center; }
+    body { 
+      font-family: Arial, sans-serif; 
+      margin: 40px; 
+      line-height: 1.6; 
+      background-color: #fffafa;
+    }
+
+    table { 
+      border-collapse: collapse; 
+      width: 70%; 
+      margin-top: 20px; 
+    }
+
+    th, td { 
+      border: 1px solid #888; 
+      padding: 8px 12px; 
+      text-align: center; 
+    }
+
     th { background-color: #f2f2f2; }
     tr:nth-child(even) { background-color: #fafafa; }
-    .toggle-btn { padding: 5px 10px; background-color: #4CAF50; color: white; border: none; cursor: pointer; border-radius: 4px; }
-    .explanation { display: none; margin-top: 5px; font-style: italic; color: #333; text-align: left; }
-    footer { margin-top: 40px; border-top: 1px solid #ccc; padding-top: 10px; font-size: 14px; color: #555; }
+
+    .toggle-btn { 
+      padding: 5px 10px; 
+      background-color: #4CAF50; 
+      color: white; 
+      border: none; 
+      cursor: pointer; 
+      border-radius: 4px; 
+    }
+
+    .toggle-btn:hover {
+      background-color: #45a049;
+    }
+
+    .explanation { 
+      display: none; 
+      margin-top: 5px; 
+      font-style: italic; 
+      color: #333; 
+      text-align: left; 
+    }
+
+    footer { 
+      margin-top: 40px; 
+      border-top: 1px solid #ccc; 
+      padding-top: 10px; 
+      font-size: 14px; 
+      color: #555; 
+    }
+
+    /* Bloody title */
+    .bloody-title {
+      color: #fff;
+      font-family: 'Georgia', serif;
+      font-size: 2.5em;
+      text-shadow: 0 0 10px red, 0 0 20px darkred;
+      position: relative;
+    }
+
+    .drip {
+      color: red;
+      font-size: 2.4em;
+      font-weight: bold;
+      position: relative;
+      text-shadow: 0 0 10px darkred, 2px 2px 6px #600;
+    }
+
+    .drip::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 100%;
+      width: 6px;
+      height: 14px;
+      background: linear-gradient(to bottom, #a00 0%, #900 50%, #400 100%);
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      opacity: 0;
+      animation: bloodDrip 4s infinite ease-in-out;
+      transform: translateX(-50%);
+    }
+
+    @keyframes bloodDrip {
+      0% { top: 100%; opacity: 1; height: 8px; }
+      25% { top: 110%; height: 10px; opacity: 1; }
+      50% { top: 130%; height: 14px; opacity: 0.9; }
+      75% { top: 160%; opacity: 0.6; }
+      100% { top: 200%; opacity: 0; }
+    }
+
+    .drip:nth-of-type(1)::after { animation-delay: 0s; }
+    .drip:nth-of-type(2)::after { animation-delay: 1.2s; }
+    .drip:nth-of-type(3)::after { animation-delay: 2.4s; }
   </style>
 </head>
+
 <body>
 
+<!-- Title -->
 <h1 class="bloody-title">
   <span class="drip">D</span>edekind 
   <span class="drip">E</span>ta 
   <span class="drip">D</span>atabase
 </h1>
-
-<style>
-  .bloody-title {
-    color: #fff;
-    font-family: 'Georgia', serif;
-    font-size: 2.5em;
-    text-shadow: 0 0 10px red, 0 0 20px darkred;
-    position: relative;
-  }
-
-  .drip {
-    color: red;
-    font-size: 2.4em;
-    font-weight: bold;
-    position: relative;
-    text-shadow: 0 0 10px darkred, 2px 2px 6px #600;
-  }
-
-  .drip::after {
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: 100%;
-    width: 6px;
-    height: 14px;
-    background: linear-gradient(to bottom, #a00 0%, #900 50%, #400 100%);
-    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-    opacity: 0;
-    animation: bloodDrip 4s infinite ease-in-out;
-    transform: translateX(-50%);
-  }
-
-  @keyframes bloodDrip {
-    0% { top: 100%; opacity: 1; height: 8px; }
-    25% { top: 110%; height: 10px; opacity: 1; }
-    50% { top: 130%; height: 14px; opacity: 0.9; }
-    75% { top: 160%; opacity: 0.6; }
-    100% { top: 200%; opacity: 0; }
-  }
-
-  .drip:nth-of-type(1)::after { animation-delay: 0s; }
-  .drip:nth-of-type(2)::after { animation-delay: 1.2s; }
-  .drip:nth-of-type(3)::after { animation-delay: 2.4s; }
-</style>
 
 <!-- Introduction Section -->
 <h2>Introduction</h2>
@@ -117,6 +172,7 @@
   <a href="mailto:koustavmondal2407@gmail.com">koustavmondal2407@gmail.com</a>.
 </footer>
 
+<!-- JS Script -->
 <script>
 fetch('data/eta_i_over_sqrt3.json')
   .then(response => response.json())
@@ -136,7 +192,7 @@ fetch('data/eta_i_over_sqrt3.json')
       etaCell.innerHTML = `\\( ${entry.eta_i_over_sqrt3} \\)`; 
       row.appendChild(etaCell);
 
-      // Explanation cell with toggle
+      // Explanation cell
       const explanationCell = document.createElement('td');
       const button = document.createElement('button');
       button.textContent = "Show Explanation";
@@ -146,12 +202,12 @@ fetch('data/eta_i_over_sqrt3.json')
       explanationBox.className = "explanation";
       explanationBox.innerHTML = entry.explanation || "No explanation available.";
 
-      // Toggle visibility + re-render MathJax
+      // Toggle and render MathJax
       button.addEventListener('click', () => {
         const isHidden = explanationBox.style.display === "none" || explanationBox.style.display === "";
         explanationBox.style.display = isHidden ? "block" : "none";
         button.textContent = isHidden ? "Hide Explanation" : "Show Explanation";
-        MathJax.typesetPromise([explanationBox]);
+        if (isHidden) MathJax.typesetPromise([explanationBox]);
       });
 
       explanationCell.appendChild(button);
@@ -161,7 +217,7 @@ fetch('data/eta_i_over_sqrt3.json')
       tbody.appendChild(row);
     });
 
-    // Render all LaTeX after loading
+    // Render all LaTeX once
     MathJax.typesetPromise();
   })
   .catch(err => console.error("Error loading JSON:", err));

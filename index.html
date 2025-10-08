@@ -212,12 +212,16 @@ to be a Hauptmodul for \( \Gamma_0(2) \), then it is related to the
           .then(data => {
            const tableTitle = document.createElement('h2');
 
-// Add LaTeX delimiters to ensure MathJax recognizes it
-tableTitle.innerHTML = data.title ? `\\(${data.title}\\)` : fileName.replace('.json','').replace(/_/g,' ').toUpperCase();
+// ✅ Wrap LaTeX titles in display math delimiters for proper rendering
+if (data.title) {
+  tableTitle.innerHTML = `\\[ ${data.title} \\]`;
+} else {
+  tableTitle.innerHTML = fileName.replace('.json', '').replace(/_/g, ' ').toUpperCase();
+}
 
 tablesContainer.appendChild(tableTitle);
 
-// Tell MathJax to render LaTeX inside the title
+// ✅ Re-render MathJax for this specific title
 MathJax.typesetPromise([tableTitle]);
 
 

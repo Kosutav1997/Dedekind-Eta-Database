@@ -3,14 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <title>Eta Values Database</title>
+  
   <!-- MathJax for LaTeX rendering -->
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script id="MathJax-script" async
     src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
   </script>
+
   <style>
     body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
-    h1 { color: #333; }
     table { border-collapse: collapse; width: 70%; margin-top: 20px; }
     th, td { border: 1px solid #888; padding: 8px 12px; text-align: center; }
     th { background-color: #f2f2f2; }
@@ -18,7 +19,6 @@
     .toggle-btn { padding: 5px 10px; background-color: #4CAF50; color: white; border: none; cursor: pointer; border-radius: 4px; }
     .explanation { display: none; margin-top: 5px; font-style: italic; color: #333; text-align: left; }
     footer { margin-top: 40px; border-top: 1px solid #ccc; padding-top: 10px; font-size: 14px; color: #555; }
-    .initial { color: red; font-size: 2em; font-weight: bold; }
   </style>
 </head>
 <body>
@@ -46,7 +46,6 @@
     text-shadow: 0 0 10px darkred, 2px 2px 6px #600;
   }
 
-  /* Blood droplet style */
   .drip::after {
     content: "";
     position: absolute;
@@ -62,44 +61,17 @@
   }
 
   @keyframes bloodDrip {
-    0% {
-      top: 100%;
-      opacity: 1;
-      height: 8px;
-    }
-    25% {
-      top: 110%;
-      height: 10px;
-      opacity: 1;
-    }
-    50% {
-      top: 130%;
-      height: 14px;
-      opacity: 0.9;
-    }
-    75% {
-      top: 160%;
-      opacity: 0.6;
-    }
-    100% {
-      top: 200%;
-      opacity: 0;
-    }
+    0% { top: 100%; opacity: 1; height: 8px; }
+    25% { top: 110%; height: 10px; opacity: 1; }
+    50% { top: 130%; height: 14px; opacity: 0.9; }
+    75% { top: 160%; opacity: 0.6; }
+    100% { top: 200%; opacity: 0; }
   }
 
-  /* Make each letter drip slightly out of sync */
-  .drip:nth-of-type(1)::after {
-    animation-delay: 0s;
-  }
-  .drip:nth-of-type(2)::after {
-    animation-delay: 1.2s;
-  }
-  .drip:nth-of-type(3)::after {
-    animation-delay: 2.4s;
-  }
+  .drip:nth-of-type(1)::after { animation-delay: 0s; }
+  .drip:nth-of-type(2)::after { animation-delay: 1.2s; }
+  .drip:nth-of-type(3)::after { animation-delay: 2.4s; }
 </style>
-
-
 
 <!-- Introduction Section -->
 <h2>Introduction</h2>
@@ -136,9 +108,7 @@
       <th>Explanation</th>
     </tr>
   </thead>
-  <tbody>
-    <!-- Rows generated dynamically -->
-  </tbody>
+  <tbody></tbody>
 </table>
 
 <!-- Footer -->
@@ -156,17 +126,17 @@ fetch('data/eta_i_over_sqrt3.json')
     data.eta_values.forEach(entry => {
       const row = document.createElement('tr');
 
-      // tau cell
+      // τ cell
       const tauCell = document.createElement('td');
-      tauCell.innerHTML = `\\( ${entry.k} \\)`; // render as LaTeX
+      tauCell.innerHTML = `\\( ${entry.k} \\)`; 
       row.appendChild(tauCell);
 
-      // eta cell
+      // η(τ) cell
       const etaCell = document.createElement('td');
-      etaCell.innerHTML = `\\( ${entry.eta_i_over_sqrt3} \\)`; // render LaTeX gamma quotient or value
+      etaCell.innerHTML = `\\( ${entry.eta_i_over_sqrt3} \\)`; 
       row.appendChild(etaCell);
 
-      // explanation cell with toggle button
+      // Explanation cell with toggle
       const explanationCell = document.createElement('td');
       const button = document.createElement('button');
       button.textContent = "Show Explanation";
@@ -174,17 +144,14 @@ fetch('data/eta_i_over_sqrt3.json')
 
       const explanationBox = document.createElement('div');
       explanationBox.className = "explanation";
-      explanationBox.innerHTML = entry.explanation || "No explanation available."; // LaTeX included
+      explanationBox.innerHTML = entry.explanation || "No explanation available.";
 
+      // Toggle visibility + re-render MathJax
       button.addEventListener('click', () => {
-        if (explanationBox.style.display === "none") {
-          explanationBox.style.display = "block";
-          button.textContent = "Hide Explanation";
-          MathJax.typesetPromise([explanationBox]); // render LaTeX
-        } else {
-          explanationBox.style.display = "none";
-          button.textContent = "Show Explanation";
-        }
+        const isHidden = explanationBox.style.display === "none" || explanationBox.style.display === "";
+        explanationBox.style.display = isHidden ? "block" : "none";
+        button.textContent = isHidden ? "Hide Explanation" : "Show Explanation";
+        MathJax.typesetPromise([explanationBox]);
       });
 
       explanationCell.appendChild(button);
@@ -194,7 +161,7 @@ fetch('data/eta_i_over_sqrt3.json')
       tbody.appendChild(row);
     });
 
-    // Render all LaTeX in the table
+    // Render all LaTeX after loading
     MathJax.typesetPromise();
   })
   .catch(err => console.error("Error loading JSON:", err));

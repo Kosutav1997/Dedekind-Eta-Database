@@ -1,0 +1,10 @@
+{
+  "title": "Eta Values at Multiples of i",
+  "eta_values": [
+    {
+      "k": "\\frac{-1+\\sqrt{3}\\textit{i}}{2}",
+      "eta_i_over_sqrt3": "e^{\\frac{-\\pi \\textit{i}}{24}}\\frac{3^{\\frac{1}{8}}}{2\\pi}\\Gamma(1/3)^{\\frac{3}{2}}",
+      "explanation": "Known value"
+    }
+  ]
+}

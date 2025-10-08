@@ -21,7 +21,6 @@
     src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
   </script>
 
-  <!-- Page Styles -->
   <style>
     body { 
       font-family: Arial, sans-serif; 
@@ -30,10 +29,12 @@
       background-color: #fffafa;
     }
 
+    h1 { font-size: 2.5em; text-align: center; margin-bottom: 20px; }
+
     table { 
       border-collapse: collapse; 
-      width: 70%; 
-      margin-top: 20px; 
+      width: 80%; 
+      margin: 30px auto; 
     }
 
     th, td { 
@@ -72,63 +73,19 @@
       padding-top: 10px; 
       font-size: 14px; 
       color: #555; 
+      text-align: center;
     }
 
-    /* Bloody title */
-    .bloody-title {
-      color: #fff;
-      font-family: 'Georgia', serif;
-      font-size: 2.5em;
-      text-shadow: 0 0 10px red, 0 0 20px darkred;
-      position: relative;
-    }
-
-    .drip {
-      color: red;
-      font-size: 2.4em;
-      font-weight: bold;
-      position: relative;
-      text-shadow: 0 0 10px darkred, 2px 2px 6px #600;
-    }
-
-    .drip::after {
-      content: "";
-      position: absolute;
-      left: 50%;
-      top: 100%;
-      width: 6px;
-      height: 14px;
-      background: linear-gradient(to bottom, #a00 0%, #900 50%, #400 100%);
-      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-      opacity: 0;
-      animation: bloodDrip 4s infinite ease-in-out;
-      transform: translateX(-50%);
-    }
-
-    @keyframes bloodDrip {
-      0% { top: 100%; opacity: 1; height: 8px; }
-      25% { top: 110%; height: 10px; opacity: 1; }
-      50% { top: 130%; height: 14px; opacity: 0.9; }
-      75% { top: 160%; opacity: 0.6; }
-      100% { top: 200%; opacity: 0; }
-    }
-
-    .drip:nth-of-type(1)::after { animation-delay: 0s; }
-    .drip:nth-of-type(2)::after { animation-delay: 1.2s; }
-    .drip:nth-of-type(3)::after { animation-delay: 2.4s; }
+    h2 { text-align: center; margin-top: 50px; }
   </style>
 </head>
 
 <body>
 
 <!-- Title -->
-<h1 class="bloody-title">
-  <span class="drip">D</span>edekind 
-  <span class="drip">E</span>ta 
-  <span class="drip">D</span>atabase
-</h1>
+<h1>Dedekind Eta Database</h1>
 
-<!-- Introduction Section -->
+<!-- Introduction -->
 <h2>Introduction</h2>
 <p>The Dedekind eta function, \( \eta(\tau) \), is a modular form with the following properties:</p>
 <ul>
@@ -152,19 +109,8 @@
   \]
 </p>
 
-<p>Additional properties can be added similarly using numbered equations:</p>
-
-<!-- Table of Eta Values -->
-<table id="etaTable">
-  <thead>
-    <tr>
-      <th>\( \tau \)</th> 
-      <th>\( \eta(\tau) \)</th> 
-      <th>Explanation</th>
-    </tr>
-  </thead>
-  <tbody></tbody>
-</table>
+<!-- Tables Container -->
+<div id="tables-container"></div>
 
 <!-- Footer -->
 <footer>
@@ -172,55 +118,88 @@
   <a href="mailto:koustavmondal2407@gmail.com">koustavmondal2407@gmail.com</a>.
 </footer>
 
-<!-- JS Script -->
+<!-- JavaScript -->
 <script>
-fetch('data/eta_i_over_sqrt3.json')
-  .then(response => response.json())
-  .then(data => {
-    const tbody = document.querySelector("#etaTable tbody");
+  // Load index.json first
+  fetch('data/index.json')
+    .then(response => response.json())
+    .then(indexData => {
+      const tablesContainer = document.getElementById('tables-container');
 
-    data.eta_values.forEach(entry => {
-      const row = document.createElement('tr');
+      // For each JSON file listed in index.json
+      indexData.files.forEach(fileName => {
+        fetch(`data/${fileName}`)
+          .then(response => response.json())
+          .then(data => {
+            // Create table title
+            const tableTitle = document.createElement('h2');
+            tableTitle.textContent = fileName.replace('.json','').replace(/_/g,' ').toUpperCase();
+            tablesContainer.appendChild(tableTitle);
 
-      // τ cell
-      const tauCell = document.createElement('td');
-      tauCell.innerHTML = `\\( ${entry.k} \\)`; 
-      row.appendChild(tauCell);
+            // Create table
+            const table = document.createElement('table');
 
-      // η(τ) cell
-      const etaCell = document.createElement('td');
-      etaCell.innerHTML = `\\( ${entry.eta_i_over_sqrt3} \\)`; 
-      row.appendChild(etaCell);
+            // Table header
+            const thead = document.createElement('thead');
+            const headerRow = document.createElement('tr');
+            ['\\(\\tau\\)', '\\(\\eta(\\tau)\\)', 'Explanation'].forEach(header => {
+              const th = document.createElement('th');
+              th.innerHTML = header;
+              headerRow.appendChild(th);
+            });
+            thead.appendChild(headerRow);
+            table.appendChild(thead);
 
-      // Explanation cell
-      const explanationCell = document.createElement('td');
-      const button = document.createElement('button');
-      button.textContent = "Show Explanation";
-      button.className = "toggle-btn";
+            // Table body
+            const tbody = document.createElement('tbody');
 
-      const explanationBox = document.createElement('div');
-      explanationBox.className = "explanation";
-      explanationBox.innerHTML = entry.explanation || "No explanation available.";
+            data.eta_values.forEach(entry => {
+              const row = document.createElement('tr');
 
-      // Toggle and render MathJax
-      button.addEventListener('click', () => {
-        const isHidden = explanationBox.style.display === "none" || explanationBox.style.display === "";
-        explanationBox.style.display = isHidden ? "block" : "none";
-        button.textContent = isHidden ? "Hide Explanation" : "Show Explanation";
-        if (isHidden) MathJax.typesetPromise([explanationBox]);
+              // tau cell
+              const tauCell = document.createElement('td');
+              tauCell.innerHTML = `\\(${entry.k}\\)`;
+              row.appendChild(tauCell);
+
+              // eta cell
+              const etaCell = document.createElement('td');
+              etaCell.innerHTML = `\\(${entry.eta_i_over_sqrt3}\\)`;
+              row.appendChild(etaCell);
+
+              // explanation cell
+              const explanationCell = document.createElement('td');
+              const button = document.createElement('button');
+              button.textContent = "Show Explanation";
+              button.className = "toggle-btn";
+
+              const explanationBox = document.createElement('div');
+              explanationBox.className = "explanation";
+              explanationBox.innerHTML = entry.explanation || "No explanation available.";
+
+              button.addEventListener('click', () => {
+                const isHidden = explanationBox.style.display === "none" || explanationBox.style.display === "";
+                explanationBox.style.display = isHidden ? "block" : "none";
+                button.textContent = isHidden ? "Hide Explanation" : "Show Explanation";
+                if (isHidden) MathJax.typesetPromise([explanationBox]);
+              });
+
+              explanationCell.appendChild(button);
+              explanationCell.appendChild(explanationBox);
+              row.appendChild(explanationCell);
+
+              tbody.appendChild(row);
+            });
+
+            table.appendChild(tbody);
+            tablesContainer.appendChild(table);
+
+            // Render LaTeX
+            MathJax.typesetPromise();
+          })
+          .catch(err => console.error(`Error loading ${fileName}:`, err));
       });
-
-      explanationCell.appendChild(button);
-      explanationCell.appendChild(explanationBox);
-      row.appendChild(explanationCell);
-
-      tbody.appendChild(row);
-    });
-
-    // Render all LaTeX once
-    MathJax.typesetPromise();
-  })
-  .catch(err => console.error("Error loading JSON:", err));
+    })
+    .catch(err => console.error("Error loading index.json:", err));
 </script>
 
 </body>

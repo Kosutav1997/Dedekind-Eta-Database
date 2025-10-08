@@ -29,24 +29,27 @@
       background-color: #fffafa;
     }
 
+    /* Bloody dripping title */
     h1.bloody-title {
       color: #fff;
       font-family: 'Georgia', serif;
-      font-size: 2.5em;
-      text-shadow: 0 0 10px red, 0 0 20px darkred;
+      font-size: 3em;
       text-align: center;
+      text-shadow: 0 0 15px red, 0 0 25px darkred, 0 0 35px #900;
       margin-bottom: 20px;
       position: relative;
     }
 
     .drip {
       color: red;
-      font-size: 2.4em;
+      font-size: 2.8em;
       font-weight: bold;
       position: relative;
-      text-shadow: 0 0 10px darkred, 2px 2px 6px #600;
+      text-shadow: 0 0 15px darkred, 2px 2px 6px #600;
+      display: inline-block;
     }
 
+    /* Single drip effect using pseudo-element */
     .drip::after {
       content: "";
       position: absolute;
@@ -61,17 +64,36 @@
       transform: translateX(-50%);
     }
 
+    /* Add multiple drips with slight offset */
+    .drip::before {
+      content: "";
+      position: absolute;
+      left: 40%;
+      top: 100%;
+      width: 4px;
+      height: 10px;
+      background: linear-gradient(to bottom, #c00 0%, #900 50%, #500 100%);
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      opacity: 0;
+      animation: bloodDrip 3.2s infinite ease-in-out;
+      transform: translateX(-50%);
+    }
+
     @keyframes bloodDrip {
       0% { top: 100%; opacity: 1; height: 8px; }
       25% { top: 110%; height: 10px; opacity: 1; }
-      50% { top: 130%; height: 14px; opacity: 0.9; }
+      50% { top: 130%; height: 16px; opacity: 0.9; }
       75% { top: 160%; opacity: 0.6; }
       100% { top: 200%; opacity: 0; }
     }
 
     .drip:nth-of-type(1)::after { animation-delay: 0s; }
-    .drip:nth-of-type(2)::after { animation-delay: 1.2s; }
-    .drip:nth-of-type(3)::after { animation-delay: 2.4s; }
+    .drip:nth-of-type(2)::after { animation-delay: 0.8s; }
+    .drip:nth-of-type(3)::after { animation-delay: 1.6s; }
+
+    .drip:nth-of-type(1)::before { animation-delay: 0.4s; }
+    .drip:nth-of-type(2)::before { animation-delay: 1.2s; }
+    .drip:nth-of-type(3)::before { animation-delay: 2s; }
 
     h2 { text-align: center; margin-top: 50px; }
 
@@ -99,9 +121,7 @@
       border-radius: 4px; 
     }
 
-    .toggle-btn:hover {
-      background-color: #45a049;
-    }
+    .toggle-btn:hover { background-color: #45a049; }
 
     .explanation { 
       display: none; 
@@ -163,7 +183,6 @@
 </footer>
 
 <script>
-  // Load index.json
   fetch('data/index.json')
     .then(response => response.json())
     .then(indexData => {
@@ -173,15 +192,11 @@
         fetch(`data/${fileName}`)
           .then(response => response.json())
           .then(data => {
-            // Table heading: use title from JSON if available
             const tableTitle = document.createElement('h2');
             tableTitle.innerHTML = data.title ? data.title : fileName.replace('.json','').replace(/_/g,' ').toUpperCase();
             tablesContainer.appendChild(tableTitle);
 
-            // Create table
             const table = document.createElement('table');
-
-            // Table header
             const thead = document.createElement('thead');
             const headerRow = document.createElement('tr');
             ['\\(\\tau\\)', '\\(\\eta(\\tau)\\)', 'Explanation'].forEach(header => {
@@ -192,7 +207,6 @@
             thead.appendChild(headerRow);
             table.appendChild(thead);
 
-            // Table body
             const tbody = document.createElement('tbody');
 
             data.eta_values.forEach(entry => {
@@ -231,7 +245,6 @@
 
             table.appendChild(tbody);
             tablesContainer.appendChild(table);
-
             MathJax.typesetPromise();
           })
           .catch(err => console.error(`Error loading ${fileName}:`, err));

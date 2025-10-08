@@ -1,5 +1,5 @@
 {
-  "title": "Eta Values at Multiples of i",
+  "title": "\text{Eta Values at imaginary quadratic points in } \\mathbb{Q}(i)",
   "eta_values": [
     {
       "k": "\\frac{-1+\\sqrt{3}\\textit{i}}{2}",

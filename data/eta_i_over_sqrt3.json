@@ -4,8 +4,7 @@
   "k": "\\textit{i}",
   "eta_i_over_sqrt3": "\\frac{\\Gamma(1/4)}{2\\pi^{\\frac{3}{4}}}",
   "explanation": "From Ramanujan's lost notebook."
-}
-
+   },
     {
       "k": 2,
       "eta_i_over_sqrt3": "\\frac{\\Gamma(2/3)}{\\Gamma(1/3)}",

@@ -237,9 +237,16 @@ Let \(\lambda \in \mathbb{N}, d=-4\lambda, \) such that \(d\equiv 0 \text{ or } 
     \]
 
     where \(a(p,r)=ap^2+bpr+cr^2, b(p,q,r,s)=2apq+bps+bqr+2crs, c(q,s)=aq^2+bqs+cs^2\),  forms a finite abelian group under Gaussian composition, denoted by \(H(d)\) and the order of \(H(d)\) is denoted by \(h(d)\). 
-    Moreover, there exists positive integers \(h_1,\cdots, \h_v\) and generators \(A_1, \cdots A_v\in H(d)\) such that \(h_1h_2\cdots h_v=h(d), 1< \mid h_2\cdots \mid h_v \) and \(\text{ord}(A_i)=h_i\)
+    Moreover, there exists positive integers \(h_1,\cdots, h_v\) and generators \(A_1, \cdots A_v\in H(d)\) such that \(h_1h_2\cdots h_v=h(d), 1< h_1 \mid h_2\cdots \mid h_v \) \ and \  \(\text{ord}(A_i)=h_i\). 
+  For each \(K \in H(d))\), there exists unique integers \(k_1\cdots k_v\) with \(0\leq k_j\leq h_j\) such that \(K=A_1^{k_1}\cdots A_v^{k_v}\). Set, \(\text{ind}_{A_j}(K):=k_j\). Then we define \(\chi\) on \(H(d) \times H(d)\) as 
   </p>
 
+<p>
+  \[
+  \chi(K,L)=e^{2\pi i \sum_{j=1}^{v}\frac{\text{ind}_{A_j}(K) \text{ind}_{A_j}(L)}{h_j}}.
+  \]
+</p>
+      
 <p>
   \[
   \eta(\sqrt{-\lambda})=2^{-3/4}\pi^{-1/4}\lambda^{-1/4}\prod_{p|f}p^{\alpha_p(\Delta,f)/4}\left( \prod_{m=1}^{|\Delta|}\Gamma\left(\frac{m}{|\Delta|}\right)^\left(\frac{\Delta}{m}\right) \right)^{\frac{w(\Delta)}{8h(\Delta)}}e^{-E(K,d)}  \tag{6}

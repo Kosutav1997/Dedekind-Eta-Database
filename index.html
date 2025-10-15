@@ -256,7 +256,23 @@ Let \(\lambda \in \mathbb{N}, d=-4\lambda, \) such that \(d\equiv 0 \text{ or } 
     E(K,d) = \frac{\pi \sqrt{|d|} w(d)}{48 h(d)} 
     \sum_{\substack{L \in H(d) \\ L \neq I}}\chi(L,K)^{-1}\frac{t_1(d)}{j(L,d)}\ell(L,d)
   \]
-    where \(j(K,d)=\lim_{s \rightarrow 1^{+}} \prod{p, \left(\frac{d}{p}\right)=1} \left(1-\frac{\chi(K,K_p)}{p^s}\right) \left(1-\frac{\chi(K^{-1},K_p)}{p^s}\right) \), \(t_1(d)=\prod{p, \left(\frac{d}{p}\right)=1} \left(1-\frac{1}{p^2}\right) \)
+    where 
+  \( 
+    j(K,d) = \lim_{s \rightarrow 1^{+}} 
+    \prod_{\substack{p \\ \left( \frac{d}{p} \right) = 1}} 
+    \left(1 - \frac{\chi(K, K_p)}{p^s}\right)
+    \left(1 - \frac{\chi(K^{-1}, K_p)}{p^s}\right)
+  \),
+  \(
+    t_1(d) = \prod_{\substack{p \\ \left( \frac{d}{p} \right) = 1}} 
+    \left(1 - \frac{1}{p^2}\right)
+  \), 
+  \(\ell(K,d)=\prod_{\substack{p\mid d \\ p \nmid f = 1}}
+    \left(1+\frac{\chi(K,K_p)}{p} \right)
+    \prod_{p\mid f} A(K,d,p)
+    \), 
+    where \(A(K,d,p)=\sum_{j=0}^{\infty}\frac{\sum_{L\in H(d) \chi(K,L)H_L(p^j)}}{p^j}
+    \). Then for \(K=[1,0,\lamda] \in H(d)\), we have
 </div>
 
 

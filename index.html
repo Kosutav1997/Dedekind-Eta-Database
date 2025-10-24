@@ -2,200 +2,76 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dedekind Eta Database</title>
-
-  <!-- MathJax Configuration -->
-  <script>
-    window.MathJax = {
-      tex: {
-        inlineMath: [['$', '$'], ['\\(', '\\)']],
-        displayMath: [['$$', '$$'], ['\\[', '\\]']]
-      },
-      svg: { fontCache: 'global' }
-    };
-  </script>
-
-  <!-- MathJax Library -->
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script id="MathJax-script" async
-    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-  </script>
-
   <style>
-    body { 
-      font-family: Arial, sans-serif; 
-      margin: 40px; 
-      line-height: 1.6; 
-      background-color: #fffafa;
-    }
-
-    /* --- Citation button styles --- */
-    .citation-container {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-
-    .bibtex-btn {
-      background-color: #0066cc;
+    /* --- Citation Button Styling --- */
+    #citeButton {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background-color: #003B8E;
       color: white;
       border: none;
-      padding: 10px 18px;
       border-radius: 6px;
-      font-size: 16px;
+      padding: 6px 10px;
+      font-size: 12px;
+      font-family: sans-serif;
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      z-index: 1000;
+      transition: background-color 0.2s ease, transform 0.1s ease;
     }
 
-    .bibtex-btn:hover {
-      background-color: #004c99;
+    #citeButton:hover {
+      background-color: #002b6b;
+      transform: scale(1.05);
     }
 
-    .bibtex-box {
+    #copyMsg {
+      position: fixed;
+      top: 40px;
+      right: 12px;
+      background-color: #28a745;
+      color: white;
+      font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 4px;
       display: none;
-      text-align: left;
-      margin: 15px auto;
-      width: 80%;
-      background-color: #f9f9f9;
-      border-left: 4px solid #0066cc;
-      padding: 15px;
-      font-family: "Courier New", monospace;
-      white-space: pre-wrap;
-      border-radius: 6px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      transition: all 0.3s ease;
-    }
-
-    /* Bloody dripping title */
-    h1.bloody-title {
-      color: #fff;
-      font-family: 'Georgia', serif;
-      font-size: 3em;
-      text-align: center;
-      text-shadow: 0 0 15px red, 0 0 25px darkred, 0 0 35px #900;
-      margin-bottom: 20px;
-      position: relative;
-    }
-
-    .drip {
-      color: red;
-      font-size: 2.8em;
-      font-weight: bold;
-      position: relative;
-      text-shadow: 0 0 15px darkred, 2px 2px 6px #600;
-      display: inline-block;
-    }
-
-    .drip::after, .drip::before {
-      content: "";
-      position: absolute;
-      top: 100%;
-      border-radius: 50%;
-      opacity: 0;
-      animation: bloodDrip 4s infinite ease-in-out;
-      transform: translateX(-50%);
-    }
-
-    .drip::after {
-      left: 50%;
-      width: 6px;
-      height: 14px;
-      background: linear-gradient(to bottom, #a00 0%, #900 50%, #400 100%);
-    }
-
-    .drip::before {
-      left: 40%;
-      width: 4px;
-      height: 10px;
-      background: linear-gradient(to bottom, #c00 0%, #900 50%, #500 100%);
-      animation-delay: 0.5s;
-    }
-
-    @keyframes bloodDrip {
-      0% { top: 100%; opacity: 1; height: 8px; }
-      50% { top: 130%; opacity: 0.9; height: 16px; }
-      100% { top: 200%; opacity: 0; }
-    }
-
-    h2 { text-align: center; margin-top: 50px; }
-
-    table { 
-      border-collapse: collapse; 
-      width: 80%; 
-      margin: 30px auto; 
-    }
-
-    th, td { 
-      border: 1px solid #888; 
-      padding: 8px 12px; 
-      text-align: center; 
-    }
-
-    th { background-color: #f2f2f2; }
-    tr:nth-child(even) { background-color: #fafafa; }
-
-    .toggle-btn { 
-      padding: 5px 10px; 
-      background-color: #4CAF50; 
-      color: white; 
-      border: none; 
-      cursor: pointer; 
-      border-radius: 4px; 
-    }
-
-    .toggle-btn:hover { background-color: #45a049; }
-
-    .explanation { 
-      display: none; 
-      margin-top: 5px; 
-      font-style: italic; 
-      color: #333; 
-      text-align: left; 
-    }
-
-    footer { 
-      margin-top: 40px; 
-      border-top: 1px solid #ccc; 
-      padding-top: 10px; 
-      font-size: 14px; 
-      color: #555; 
-      text-align: center;
+      z-index: 1001;
+      font-family: sans-serif;
     }
   </style>
 </head>
-
 <body>
 
-<!-- Title -->
-<h1 class="bloody-title">
-  <span class="drip">D</span>edekind 
-  <span class="drip">E</span>ta 
-  <span class="drip">D</span>atabase
-</h1>
+  <!-- Citation Button -->
+  <button id="citeButton">📋 Cite</button>
+  <div id="copyMsg">Copied!</div>
 
-<!-- BibTeX citation button -->
-<div class="citation-container">
-  <button class="bibtex-btn" onclick="toggleBibtex()">Show BibTeX Citation</button>
-  <div id="bibtex-box" class="bibtex-box">
-@misc{dedekindeta2025,
-  shorthand    = {DED},
-  author       = {Koustav Mondal},
-  title        = {The {Dedekind Eta Database}},
-  howpublished = {\url{https://kosutav1997.github.io/Dedekind-Eta-Database/}},
-  year         = {2025},
-  note         = {[Online; accessed 24 October 2025]},
-}
-  </div>
-</div>
+  <script>
+    // Automatically get today's date for access info
+    function getAccessDate() {
+      const today = new Date();
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      return today.toLocaleDateString('en-US', options);
+    }
 
-<script>
-  function toggleBibtex() {
-    const box = document.getElementById("bibtex-box");
-    const btn = document.querySelector(".bibtex-btn");
-    const isHidden = box.style.display === "none" || box.style.display === "";
-    box.style.display = isHidden ? "block" : "none";
-    btn.textContent = isHidden ? "Hide BibTeX Citation" : "Show BibTeX Citation";
-  }
-</script>
+    // Citation text template
+    function getCitationText() {
+      return `K. Mondal, "Dedekind Eta Database", UCLA, ${window.location.href} (Accessed on ${getAccessDate()}).`;
+    }
+
+    // Copy to clipboard function
+    document.getElementById("citeButton").addEventListener("click", function() {
+      const citation = getCitationText();
+      navigator.clipboard.writeText(citation).then(() => {
+        const msg = document.getElementById("copyMsg");
+        msg.style.display = "block";
+        setTimeout(() => { msg.style.display = "none"; }, 1500);
+      });
+    });
+  </script>
 
 <!-- Introduction -->
 <h2>Introduction</h2>

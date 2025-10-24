@@ -1,300 +1,461 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Dedekind Eta Database</title>
+
+  <!-- MathJax Configuration -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+
   <style>
-    /* --- Citation Button Styling --- */
-    #citeButton {
+    /* Page base */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      line-height: 1.6;
+      background-color: #fffafa;
+      color: #111;
+    }
+
+    /* Title styling */
+    h1.bloody-title {
+      color: #fff;
+      font-family: 'Georgia', serif;
+      font-size: 3em;
+      text-align: center;
+      text-shadow: 0 0 15px red, 0 0 25px darkred, 0 0 35px #900;
+      margin-bottom: 20px;
+      position: relative;
+    }
+    .drip {
+      color: red;
+      font-size: 2.8em;
+      font-weight: bold;
+      position: relative;
+      text-shadow: 0 0 15px darkred, 2px 2px 6px #600;
+      display: inline-block;
+    }
+    .drip::after, .drip::before {
+      content: "";
+      position: absolute;
+      top: 100%;
+      border-radius: 50%;
+      opacity: 0;
+      animation: bloodDrip 4s infinite ease-in-out;
+      transform: translateX(-50%);
+    }
+    .drip::after {
+      left: 50%;
+      width: 6px;
+      height: 14px;
+      background: linear-gradient(to bottom, #a00 0%, #900 50%, #400 100%);
+    }
+    .drip::before {
+      left: 40%;
+      width: 4px;
+      height: 10px;
+      background: linear-gradient(to bottom, #c00 0%, #900 50%, #500 100%);
+      animation-delay: 0.5s;
+    }
+    @keyframes bloodDrip {
+      0% { top: 100%; opacity: 1; height: 8px; }
+      50% { top: 130%; opacity: 0.9; height: 16px; }
+      100% { top: 200%; opacity: 0; }
+    }
+
+    /* Tables */
+    table {
+      border-collapse: collapse;
+      width: 80%;
+      margin: 30px auto;
+    }
+    th, td {
+      border: 1px solid #888;
+      padding: 8px 12px;
+      text-align: center;
+    }
+    th { background-color: #f2f2f2; }
+    tr:nth-child(even) { background-color: #fafafa; }
+
+    /* Toggle buttons within table rows */
+    .toggle-btn {
+      padding: 5px 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    .toggle-btn:hover { background-color: #45a049; }
+
+    .explanation {
+      display: none;
+      margin-top: 5px;
+      font-style: italic;
+      color: #333;
+      text-align: left;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 40px;
+      border-top: 1px solid #ccc;
+      padding-top: 10px;
+      font-size: 14px;
+      color: #555;
+      text-align: center;
+    }
+
+    /* --- Top-right citation button (small) --- */
+    .cite-widget {
       position: fixed;
       top: 10px;
       right: 10px;
+      z-index: 1200;
+      font-family: sans-serif;
+    }
+    .cite-btn {
       background-color: #003B8E;
       color: white;
       border: none;
       border-radius: 6px;
-      padding: 6px 10px;
+      padding: 6px 8px;
       font-size: 12px;
-      font-family: sans-serif;
       cursor: pointer;
       box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-      z-index: 1000;
-      transition: background-color 0.2s ease, transform 0.1s ease;
+      transition: background-color 0.15s ease, transform 0.08s ease;
     }
+    .cite-btn:hover { background-color: #002b6b; transform: scale(1.04); }
 
-    #citeButton:hover {
-      background-color: #002b6b;
-      transform: scale(1.05);
-    }
-
-    #copyMsg {
-      position: fixed;
-      top: 40px;
-      right: 12px;
-      background-color: #28a745;
-      color: white;
-      font-size: 12px;
-      padding: 4px 8px;
-      border-radius: 4px;
+    .bib-box {
       display: none;
-      z-index: 1001;
-      font-family: sans-serif;
+      margin-top: 8px;
+      width: 360px;
+      max-width: calc(100vw - 24px);
+      background: #f9f9f9;
+      border-left: 4px solid #003B8E;
+      padding: 12px;
+      border-radius: 6px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+      font-family: "Courier New", monospace;
+      white-space: pre-wrap;
+      position: relative;
+    }
+
+    .bib-actions {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 8px;
+      justify-content: flex-end;
+    }
+    .small-btn {
+      background: #0066cc;
+      color: #fff;
+      border: none;
+      padding: 6px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .small-btn:hover { background: #004c99; }
+
+    /* copy feedback */
+    .copy-feedback {
+      display: none;
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      font-size: 12px;
+      color: #0a0;
+    }
+
+    /* responsive tweaks */
+    @media (max-width: 640px) {
+      h1.bloody-title { font-size: 2em; }
+      .bib-box { width: 92vw; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Citation Button -->
-  <button id="citeButton">📋 Cite</button>
-  <div id="copyMsg">Copied!</div>
+  <!-- top-right citation widget -->
+  <div class="cite-widget" aria-hidden="false">
+    <button id="citeToggle" class="cite-btn" aria-expanded="false" title="Show citation">📋 Cite</button>
 
-  <script>
-    // Automatically get today's date for access info
-    function getAccessDate() {
-      const today = new Date();
-      const options = { year: 'numeric', month: 'long', day: 'numeric' };
-      return today.toLocaleDateString('en-US', options);
-    }
+    <div id="bibBox" class="bib-box" role="region" aria-label="BibTeX citation">
+      <div class="bib-actions">
+        <button id="copyBib" class="small-btn" title="Copy BibTeX">Copy</button>
+        <button id="closeBib" class="small-btn" title="Close">Close</button>
+      </div>
 
-    // Citation text template
-    function getCitationText() {
-      return `K. Mondal, "Dedekind Eta Database", UCLA, ${window.location.href} (Accessed on ${getAccessDate()}).`;
-    }
+      <div class="copy-feedback" id="copyFeedback">Copied ✓</div>
 
-    // Copy to clipboard function
-    document.getElementById("citeButton").addEventListener("click", function() {
-      const citation = getCitationText();
-      navigator.clipboard.writeText(citation).then(() => {
-        const msg = document.getElementById("copyMsg");
-        msg.style.display = "block";
-        setTimeout(() => { msg.style.display = "none"; }, 1500);
-      });
-    });
-  </script>
+      <div id="bibContent">
+<pre id="bibPre">@misc{dedekindeta2025,
+  shorthand    = {DED},
+  author       = {Koustav Mondal},
+  title        = {The {Dedekind Eta Database}},
+  howpublished = {\url{https://kosutav1997.github.io/Dedekind-Eta-Database/}},
+  year         = {2025},
+  note         = {[Online; accessed <span id="accessDate"></span>]},
+}</pre>
+      </div>
+    </div>
+  </div>
 
-<!-- Introduction -->
-<h2>Introduction</h2>
-<p>The Dedekind eta function, \( \eta(\tau) \), is a modular form with the following properties:</p>
-<ul>
-  <li>Holomorphic on the upper half-plane: \( \text{Im}(\tau) > 0 \)</li>
-  <li>q-expansion: 
+  <!-- Title -->
+  <h1 class="bloody-title">
+    <span class="drip">D</span>edekind
+    <span class="drip">E</span>ta
+    <span class="drip">D</span>atabase
+  </h1>
+
+  <!-- Introduction -->
+  <h2>Introduction</h2>
+  <p>The Dedekind eta function, \( \eta(\tau) \), is a modular form with the following properties:</p>
+  <ul>
+    <li>Holomorphic on the upper half-plane: \( \operatorname{Im}(\tau) > 0 \).</li>
+    <li>q-expansion:
+      <div>
+        \[
+        \eta(\tau) = q^{1/24} \prod_{n=1}^{\infty} (1 - q^n), \quad q = e^{2 \pi i \tau}
+        \]
+      </div>
+      <p>From (1), it is evident that,</p>
+      <div>
+        \[
+        \eta(iy) \in \mathbb{R}^{+}, \quad e^{\frac{-i\pi}{24}}\eta\left(\frac{1+iy}{2}\right) \in \mathbb{R}^{+}, \quad y>0.
+        \]
+      </div>
+    </li>
+    <li>Modular transformations (examples):</li>
+  </ul>
+
+  <p>
     \[
-    \eta(\tau) = q^{1/24} \prod_{n=1}^{\infty} (1 - q^n), \quad q = e^{2 \pi i \tau} \tag{1}
-    \] 
+    \eta(\tau + 1) = e^{\pi i /12} \eta(\tau)
+    \]
+  </p>
+  <p>
+    \[
+    \eta(-1/\tau) = \sqrt{-i\tau} \, \eta(\tau)
+    \]
+  </p>
 
-    <p>
-     From (1), it is evident that,
-      <p>
-    
-    
+  <p>If we choose \( u(\tau) = \left( \frac{\eta(2\tau)}{\eta(\tau)} \right)^{24} \) to be a Hauptmodul for \( \Gamma_0(2) \), then it is related to the <em>j</em>-invariant as:</p>
+  <p>
+    \[
+    j(\tau) = \frac{(1 + 256 \cdot u(\tau))^3}{u(\tau)}
+    \]
+  </p>
+
+  <ul>
+    <li>
+      Work of Muzaffar and Williams
+      <sup>
+        <a href="https://people.math.carleton.ca/~williams/papers/pdf/299.pdf" target="_blank">[1]</a>,
+        <a href="https://people.math.carleton.ca/~williams/papers/pdf/269.pdf" target="_blank">[2]</a>
+      </sup>
+    </li>
+  </ul>
+
+  <p>
+    Let \(\lambda \in \mathbb{N}, d=-4\lambda\), such that \(d\equiv 0 \text{ or } 1\pmod{4}\). Choose largest \(f\) such that \(f^2\mid d, d/f^2\equiv 0 \text{ or } 1\pmod{4}\). Set \(\Delta=d/f^2\). Let \(v_p(f)\) be a non-negative integer such that \(p^{v_p(f)}\mid p\) but \(p^{v_p(f)+1}\nmid p\). Then, define
+  </p>
+
+  <p>
+    \[
+    \alpha_p(\Delta, f)=\frac{(p^{v_p(f)}-1)\left(1-\left(\frac{\Delta}{p}\right) \right)}{  p^{v_p(f)-1}(p-1) \left(p - \left(\frac{\Delta}{p}\right)\right)}
+    \]
+  </p>
+
+  <p>
+    where \( \left(\frac{\Delta}{p}\right)\) is the Legendre symbol. Let \(w(d)\) denote the number of automorphs of primitive, positive-definite, binary quadratic form of discriminant \(d\). Then,
+    \(w(d)=\begin{cases} 6, &\text{ if } d=-3\\   4, &\text{ if } d=-4\\  2, &\text{ if } d<-4 \end{cases}\).
+  </p>
+
+  <p>
+    The positive-definite, primitive, integral, binary quadratic form \(ax^2+bxy+cy^2\), denoted by \((a,b,c)\), with discriminant \(d=b^2-4ac\), forms a finite abelian group under Gaussian composition, denoted by \(H(d)\) and the order of \(H(d)\) is denoted by \(h(d)\).
+  </p>
+
+  <div>
     <p>
       \[
-      \eta(iy) \in \mathbb{R}^{+}, \quad e^{\frac{-i\pi}{24}}\eta\left(\frac{1+iy}{2}\right) \in \mathbb{R}^{+}, \tag{2}
+      E(K,d) = \frac{\pi \sqrt{|d|} w(d)}{48 h(d)}
+      \sum_{\substack{L \in H(d) \\ L \neq I}}\chi(L,K)^{-1}\frac{t_1(d)}{j(L,d)}\ell(L,d)
       \]
-      for \(y>0\).
     </p>
-  </li>
-  <li>Modular transformations:</li>
-</ul>
+  </div>
 
-<p>
-  \[
-  \eta(\tau + 1) = e^{\pi i /12} \eta(\tau) \tag{3}
-  \]
-</p>
-<p>
-  \[
-  \eta(-1/\tau) = \sqrt{-i\tau} \, \eta(\tau) \tag{4}
-  \]
-</p>
-
-
-   </li>
- <li>Hauptmodule for \( \Gamma_0(2) \):</li>
-</ul>
-
-<p>
-If we choose \( u(\tau) = \left( \frac{\eta(2\tau)}{\eta(\tau)} \right)^{24} \) 
-to be a Hauptmodul for \( \Gamma_0(2) \), then it is related to the 
-<em>j</em>-invariant as:
-</p>
-
-<p>
-  \[
-  j(\tau) = \frac{(1 + 256 \cdot u(\tau))^3}{u(\tau)} \tag{5}
-  \]
-</p>
-
-
- <ul>
-  <li>
-    Work of Muzaffar and Williams
-    <sup>
-      <a href="https://people.math.carleton.ca/~williams/papers/pdf/299.pdf" target="_blank">[1]</a>,
-      <a href="https://people.math.carleton.ca/~williams/papers/pdf/269.pdf" target="_blank">[2]</a>
-    </sup>
-  </li>
-</ul>
-
-
-
-<p>
-Let \(\lambda \in \mathbb{N}, d=-4\lambda, \) such that \(d\equiv 0 \text{ or } 1\pmod{4}\). Choose largest \(f\) such that \(f^2|d, d/f^2\equiv 0 \text{ or } 1\pmod{4}\). Set \(\Delta=d/f^2\). Let \(v_p(f)\) be a  non-negative integer such that \(p^{v_p(f)}|p\) but \(p^{v_p(f)+1}\nmid p\). Then, define
-</p>
   <p>
-\[
-    \alpha_p(\Delta, f)=\frac{(p^{v_p(f)}-1)\left(1-\left(\frac{\Delta}{p}\right) \right)}{  p^{v_p(f)-1}(p-1) \left(p - \left(\frac{\Delta}{p}\right)\right)}, 
-  
+    \[
+    \eta(\sqrt{-\lambda})=2^{-3/4}\pi^{-1/4}\lambda^{-1/4}\prod_{p\mid f}p^{\alpha_p(\Delta,f)/4}\left( \prod_{m=1}^{|\Delta|}\Gamma\left(\frac{m}{|\Delta|}\right)^{\left(\frac{\Delta}{m}\right)} \right)^{\frac{w(\Delta)}{8h(\Delta)}}e^{-E(K,d)}
     \]
   </p>
 
-  <p> where \( \left(\frac{\Delta}{p}\right)\) is the Legengre symbol. 
-    Let \(w(d)\) denote the number of autumorphs of primitive, positive-definite, binary quadratic form of discriminant \(d\). Then, \(w(d)=\begin{cases} 6, &\text{ if } d=-3\\   4, &\text{ if } d=-4\\  2, &\text{ if } d<-4 \end{cases}\).  
-   The positive-definite, primite, integral, binary quadratic form \(ax^2+bxy+cy^2\), denoted by \((a,b,c)\),with discriminant \(d=b^2-4ac\), and class 
-  </p>
+  <div id="tables-container"></div>
 
-  <p>\[
-    [a,b,c]= \{ a(p,r), b(p,q,r,s), c(q,s) \mid p,q,r,s \in \mathbb{Z}, ps-qr=1 \}, 
-    \]
+  <footer>
+    This site is currently under development. For more information, contact:
+    <a href="mailto:koustavmondal2407@gmail.com">koustavmondal2407@gmail.com</a>.
+  </footer>
 
-    where \(a(p,r)=ap^2+bpr+cr^2, b(p,q,r,s)=2apq+bps+bqr+2crs, c(q,s)=aq^2+bqs+cs^2\),  forms a finite abelian group under Gaussian composition, denoted by \(H(d)\) and the order of \(H(d)\) is denoted by \(h(d)\). 
-    Moreover, there exists positive integers \(h_1,\cdots, h_v\) and generators \(A_1, \cdots A_v\in H(d)\) such that \(h_1h_2\cdots h_v=h(d)\),\(1 < h_1 \mid h_2 \cdots \mid h_v\)  ,  and   \(\text{ord}(A_i)=h_i\). 
-  For each \(K\in H(d))\), there exists unique integers \(k_1\cdots k_v\) with \(0\leq k_j\leq h_j\) such that \(K=A_1^{k_1}\cdots A_v^{k_v}\). Set, \(\text{ind}_{A_j}(K):=k_j\). Then we define \(\chi\) on \(H(d) \times H(d)\) as 
-  </p>
+  <!-- Data loader -->
+  <script>
+    // Fill access date in bib box
+    function fillAccessDate() {
+      const now = new Date();
+      const day = now.getDate();
+      const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+      const month = monthNames[now.getMonth()];
+      const year = now.getFullYear();
+      const access = `${day} ${month} ${year}`;
+      const el = document.getElementById('accessDate');
+      if (el) el.textContent = access;
+    }
 
-<p>
-  \[
-  \chi(K,L)=e^{2\pi i \sum_{j=1}^{v}\frac{\text{ind}_{A_j}(K) \text{ind}_{A_j}(L)}{h_j}}.
-  \]
+    // Toggle bib box
+    function setupBibControls() {
+      const toggle = document.getElementById('citeToggle');
+      const bibBox = document.getElementById('bibBox');
+      const copyBtn = document.getElementById('copyBib');
+      const closeBtn = document.getElementById('closeBib');
+      const feedback = document.getElementById('copyFeedback');
 
-  For \(K=[a,b,c]\in H(d), K^{-1}=[a,-b,c]\) and define \(K_p=\left[p, h_1, \frac{h_1^2-d}{4p}\right]\), where \(h_i^2\equiv d\pmod(4p), h_1 <  h_2\). Define \(H_L(n)=\text{ card } \{h \mid 0\leq h <2n, h^2\equiv d\pmod{4n}, \left[n,h,\frac{h^2-d}{4n}\right]=L\}\). Then, we define,  
-                                                                                                                                           
-                                                                                                                                              
-                                                                                                                                              
-                                                                                                                                              
-   <div>
-  \[
-    E(K,d) = \frac{\pi \sqrt{|d|} w(d)}{48 h(d)} 
-    \sum_{\substack{L \in H(d) \\ L \neq I}}\chi(L,K)^{-1}\frac{t_1(d)}{j(L,d)}\ell(L,d)
-  \]
-    where 
-  \( 
-    j(K,d) = \lim_{s \rightarrow 1^{+}} 
-    \prod_{\substack{p \\ \left( \frac{d}{p} \right) = 1}} 
-    \left(1 - \frac{\chi(K, K_p)}{p^s}\right)
-    \left(1 - \frac{\chi(K^{-1}, K_p)}{p^s}\right)
-  \),
-  \(
-    t_1(d) = \prod_{\substack{p \\ \left( \frac{d}{p} \right) = 1}} 
-    \left(1 - \frac{1}{p^2}\right)
-  \), 
-  \(\ell(K,d)=\prod_{\substack{p\mid d \\ p \nmid f = 1}}
-    \left(1+\frac{\chi(K,K_p)}{p} \right)
-    \prod_{p\mid f} A(K,d,p)
-    \), 
-    where \(A(K,d,p)=\sum_{j=0}^{\infty}\frac{\sum_{L\in H(d)} \chi(K,L)H_L(p^j)}{p^j}
-    \). Then for \(K=[1,0,\lambda] \in H(d)\), we have
-</div>
-
-
-    
-<p>
-  \[
-  \eta(\sqrt{-\lambda})=2^{-3/4}\pi^{-1/4}\lambda^{-1/4}\prod_{p|f}p^{\alpha_p(\Delta,f)/4}\left( \prod_{m=1}^{|\Delta|}\Gamma\left(\frac{m}{|\Delta|}\right)^\left(\frac{\Delta}{m}\right) \right)^{\frac{w(\Delta)}{8h(\Delta)}}e^{-E(K,d)}  \tag{6}
-  \]
-</p>
-  
-
-
-<div id="tables-container"></div>
-
-<footer>
-  This site is currently under development. For more information, contact: 
-  <a href="mailto:koustavmondal2407@gmail.com">koustavmondal2407@gmail.com</a>.
-</footer>
-
-<script>
-  fetch('data/index.json')
-    .then(response => response.json())
-    .then(indexData => {
-      const tablesContainer = document.getElementById('tables-container');
-
-      indexData.files.forEach(fileName => {
-        fetch(`data/${fileName}`)
-          .then(response => response.json())
-          .then(data => {
-           const tableTitle = document.createElement('h2');
-
-// ✅ Wrap LaTeX titles in display math delimiters for proper rendering
-if (data.title) {
-  tableTitle.innerHTML = `\\[ ${data.title} \\]`;
-} else {
-  tableTitle.innerHTML = fileName.replace('.json', '').replace(/_/g, ' ').toUpperCase();
-}
-
-tablesContainer.appendChild(tableTitle);
-
-// ✅ Re-render MathJax for this specific title
-MathJax.typesetPromise([tableTitle]);
-
-
-            const table = document.createElement('table');
-            const thead = document.createElement('thead');
-            const headerRow = document.createElement('tr');
-            ['\\(\\tau\\)', '\\(\\eta(\\tau)\\)', 'Explanation'].forEach(header => {
-              const th = document.createElement('th');
-              th.innerHTML = header;
-              headerRow.appendChild(th);
-            });
-            thead.appendChild(headerRow);
-            table.appendChild(thead);
-
-            const tbody = document.createElement('tbody');
-
-            data.eta_values.forEach(entry => {
-              const row = document.createElement('tr');
-
-              const tauCell = document.createElement('td');
-              tauCell.innerHTML = `\\(${entry.k}\\)`;
-              row.appendChild(tauCell);
-
-              const etaCell = document.createElement('td');
-              etaCell.innerHTML = `\\(${entry.eta_i_over_sqrt3}\\)`;
-              row.appendChild(etaCell);
-
-              const explanationCell = document.createElement('td');
-              const button = document.createElement('button');
-              button.textContent = "Show Explanation";
-              button.className = "toggle-btn";
-
-              const explanationBox = document.createElement('div');
-              explanationBox.className = "explanation";
-              explanationBox.innerHTML = entry.explanation || "No explanation available.";
-
-              button.addEventListener('click', () => {
-                const isHidden = explanationBox.style.display === "none" || explanationBox.style.display === "";
-                explanationBox.style.display = isHidden ? "block" : "none";
-                button.textContent = isHidden ? "Hide Explanation" : "Show Explanation";
-                if (isHidden) MathJax.typesetPromise([explanationBox]);
-              });
-
-              explanationCell.appendChild(button);
-              explanationCell.appendChild(explanationBox);
-              row.appendChild(explanationCell);
-
-              tbody.appendChild(row);
-            });
-
-            table.appendChild(tbody);
-            tablesContainer.appendChild(table);
-            MathJax.typesetPromise();
-          })
-          .catch(err => console.error(`Error loading ${fileName}:`, err));
+      toggle.addEventListener('click', () => {
+        const isHidden = (bibBox.style.display === '' || bibBox.style.display === 'none');
+        bibBox.style.display = isHidden ? 'block' : 'none';
+        toggle.setAttribute('aria-expanded', isHidden ? 'true' : 'false');
       });
-    })
-    .catch(err => console.error("Error loading index.json:", err));
-</script>
 
+      closeBtn.addEventListener('click', () => {
+        bibBox.style.display = 'none';
+        toggle.setAttribute('aria-expanded', 'false');
+      });
+
+      copyBtn.addEventListener('click', () => {
+        // copy innerText of bibPre (which contains the bibtex)
+        const pre = document.getElementById('bibPre');
+        let textToCopy = pre ? pre.innerText : '';
+        // ensure the access date is up-to-date inside copied text
+        const accessEl = document.getElementById('accessDate');
+        if (accessEl) {
+          textToCopy = textToCopy.replace(/\[Online; accessed .*?\]/, `[Online; accessed ${accessEl.textContent}]`);
+        }
+        navigator.clipboard.writeText(textToCopy).then(() => {
+          feedback.style.display = 'block';
+          setTimeout(() => feedback.style.display = 'none', 1400);
+        }).catch(() => {
+          // fallback: select visible text to help manual copy
+          if (pre) {
+            const range = document.createRange();
+            range.selectNodeContents(pre);
+            const sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(range);
+          }
+        });
+      });
+    }
+
+    // load data JSON files and build tables
+    (function loadTables() {
+      fetch('data/index.json')
+        .then(response => {
+          if (!response.ok) throw new Error('index.json not found');
+          return response.json();
+        })
+        .then(indexData => {
+          const tablesContainer = document.getElementById('tables-container');
+          if (!indexData.files || !Array.isArray(indexData.files)) return;
+          indexData.files.forEach(fileName => {
+            fetch(`data/${fileName}`)
+              .then(r => r.json())
+              .then(data => {
+                const tableTitle = document.createElement('h2');
+                if (data.title) {
+                  tableTitle.innerHTML = `\\[ ${data.title} \\]`;
+                } else {
+                  tableTitle.textContent = fileName.replace('.json','').replace(/_/g,' ').toUpperCase();
+                }
+                tablesContainer.appendChild(tableTitle);
+                // ensure MathJax renders this title properly
+                if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([tableTitle]);
+
+                const table = document.createElement('table');
+                const thead = document.createElement('thead');
+                const headerRow = document.createElement('tr');
+                ['\\(\\tau\\)', '\\(\\eta(\\tau)\\)', 'Explanation'].forEach(header => {
+                  const th = document.createElement('th');
+                  th.innerHTML = header;
+                  headerRow.appendChild(th);
+                });
+                thead.appendChild(headerRow);
+                table.appendChild(thead);
+
+                const tbody = document.createElement('tbody');
+                (data.eta_values || []).forEach(entry => {
+                  const row = document.createElement('tr');
+
+                  const tauCell = document.createElement('td');
+                  tauCell.innerHTML = `\\(${entry.k}\\)`;
+                  row.appendChild(tauCell);
+
+                  const etaCell = document.createElement('td');
+                  etaCell.innerHTML = `\\(${entry.eta_i_over_sqrt3}\\)`;
+                  row.appendChild(etaCell);
+
+                  const explanationCell = document.createElement('td');
+                  const button = document.createElement('button');
+                  button.textContent = "Show Explanation";
+                  button.className = "toggle-btn";
+
+                  const explanationBox = document.createElement('div');
+                  explanationBox.className = "explanation";
+                  explanationBox.innerHTML = entry.explanation || "No explanation available.";
+
+                  button.addEventListener('click', () => {
+                    const isHidden = (explanationBox.style.display === '' || explanationBox.style.display === 'none');
+                    explanationBox.style.display = isHidden ? 'block' : 'none';
+                    button.textContent = isHidden ? 'Hide Explanation' : 'Show Explanation';
+                    if (isHidden && window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([explanationBox]);
+                  });
+
+                  explanationCell.appendChild(button);
+                  explanationCell.appendChild(explanationBox);
+                  row.appendChild(explanationCell);
+
+                  tbody.appendChild(row);
+                });
+
+                table.appendChild(tbody);
+                tablesContainer.appendChild(table);
+                if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise();
+              })
+              .catch(err => console.error(`Error loading ${fileName}:`, err));
+          });
+        })
+        .catch(err => console.warn('No data/index.json found or failed to load it:', err));
+    })();
+
+    // init on load
+    document.addEventListener('DOMContentLoaded', () => {
+      fillAccessDate();
+      setupBibControls();
+    });
+  </script>
 </body>
 </html>

@@ -29,6 +29,42 @@
       background-color: #fffafa;
     }
 
+    /* --- Citation button styles --- */
+    .citation-container {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .bibtex-btn {
+      background-color: #0066cc;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .bibtex-btn:hover {
+      background-color: #004c99;
+    }
+
+    .bibtex-box {
+      display: none;
+      text-align: left;
+      margin: 15px auto;
+      width: 80%;
+      background-color: #f9f9f9;
+      border-left: 4px solid #0066cc;
+      padding: 15px;
+      font-family: "Courier New", monospace;
+      white-space: pre-wrap;
+      border-radius: 6px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+
     /* Bloody dripping title */
     h1.bloody-title {
       color: #fff;
@@ -49,51 +85,36 @@
       display: inline-block;
     }
 
-    /* Single drip effect using pseudo-element */
-    .drip::after {
+    .drip::after, .drip::before {
       content: "";
       position: absolute;
-      left: 50%;
       top: 100%;
-      width: 6px;
-      height: 14px;
-      background: linear-gradient(to bottom, #a00 0%, #900 50%, #400 100%);
-      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      border-radius: 50%;
       opacity: 0;
       animation: bloodDrip 4s infinite ease-in-out;
       transform: translateX(-50%);
     }
 
-    /* Add multiple drips with slight offset */
+    .drip::after {
+      left: 50%;
+      width: 6px;
+      height: 14px;
+      background: linear-gradient(to bottom, #a00 0%, #900 50%, #400 100%);
+    }
+
     .drip::before {
-      content: "";
-      position: absolute;
       left: 40%;
-      top: 100%;
       width: 4px;
       height: 10px;
       background: linear-gradient(to bottom, #c00 0%, #900 50%, #500 100%);
-      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-      opacity: 0;
-      animation: bloodDrip 3.2s infinite ease-in-out;
-      transform: translateX(-50%);
+      animation-delay: 0.5s;
     }
 
     @keyframes bloodDrip {
       0% { top: 100%; opacity: 1; height: 8px; }
-      25% { top: 110%; height: 10px; opacity: 1; }
-      50% { top: 130%; height: 16px; opacity: 0.9; }
-      75% { top: 160%; opacity: 0.6; }
+      50% { top: 130%; opacity: 0.9; height: 16px; }
       100% { top: 200%; opacity: 0; }
     }
-
-    .drip:nth-of-type(1)::after { animation-delay: 0s; }
-    .drip:nth-of-type(2)::after { animation-delay: 0.8s; }
-    .drip:nth-of-type(3)::after { animation-delay: 1.6s; }
-
-    .drip:nth-of-type(1)::before { animation-delay: 0.4s; }
-    .drip:nth-of-type(2)::before { animation-delay: 1.2s; }
-    .drip:nth-of-type(3)::before { animation-delay: 2s; }
 
     h2 { text-align: center; margin-top: 50px; }
 
@@ -144,12 +165,37 @@
 
 <body>
 
-<!-- Bloody Title -->
+<!-- Title -->
 <h1 class="bloody-title">
   <span class="drip">D</span>edekind 
   <span class="drip">E</span>ta 
   <span class="drip">D</span>atabase
 </h1>
+
+<!-- BibTeX citation button -->
+<div class="citation-container">
+  <button class="bibtex-btn" onclick="toggleBibtex()">Show BibTeX Citation</button>
+  <div id="bibtex-box" class="bibtex-box">
+@misc{dedekindeta2025,
+  shorthand    = {DED},
+  author       = {Koustav Mondal},
+  title        = {The {Dedekind Eta Database}},
+  howpublished = {\url{https://kosutav1997.github.io/Dedekind-Eta-Database/}},
+  year         = {2025},
+  note         = {[Online; accessed 24 October 2025]},
+}
+  </div>
+</div>
+
+<script>
+  function toggleBibtex() {
+    const box = document.getElementById("bibtex-box");
+    const btn = document.querySelector(".bibtex-btn");
+    const isHidden = box.style.display === "none" || box.style.display === "";
+    box.style.display = isHidden ? "block" : "none";
+    btn.textContent = isHidden ? "Hide BibTeX Citation" : "Show BibTeX Citation";
+  }
+</script>
 
 <!-- Introduction -->
 <h2>Introduction</h2>
